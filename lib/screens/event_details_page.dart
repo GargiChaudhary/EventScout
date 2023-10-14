@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../model/event.dart';
-import 'event_details_bg.dart';
-import 'event_details_content.dart';
+import '../model/event.dart';
+import '../widgets/event_details_bg.dart';
+import '../widgets/event_details_content.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final Event event;

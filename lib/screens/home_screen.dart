@@ -1,13 +1,13 @@
 import 'package:events/app_state.dart';
 import 'package:events/model/event.dart';
 import 'package:events/style_guide.dart';
-import 'package:events/ui/event_details/event_details_page.dart';
+import 'package:events/screens/event_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../model/category.dart';
-import 'category_widget.dart';
-import 'event_widget.dart';
-import 'home_page_background.dart';
+import '../model/category.dart';
+import '../widgets/category_widget.dart';
+import '../widgets/event_widget.dart';
+import '../widgets/home_page_background.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
