@@ -1,6 +1,4 @@
-import 'package:events/responsive/responsive_layout.dart';
-import 'package:events/responsive/web_screen_layout.dart';
-import 'package:events/screens/home_screen.dart';
+import 'package:events/screens/landing_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +32,11 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFFFF4700),
         useMaterial3: true,
       ),
-      home: const ResponsiveLayout(
-        webScreenLayout: WebScreenLayout(),
-        mobileScreenLayout: HomePage(),
-      ),
-      // home: const LoginScreen(),
+      // home: const ResponsiveLayout(
+      //   webScreenLayout: WebScreenLayout(),
+      //   mobileScreenLayout: HomePage(),
+      // ),
+      home: const LandingScreen(),
     );
   }
 }
