@@ -1,6 +1,12 @@
+import 'package:events/resources/auth_methods.dart';
 import 'package:events/screens/signup_screen.dart';
+import 'package:events/utils/utils.dart';
 import 'package:events/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
+
+import '../responsive/responsive_layout.dart';
+import '../responsive/web_screen_layout.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,12 +18,33 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+
+    if (res == "success") {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: HomePage())));
+    } else {
+      showSnackBar(res, context);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -83,25 +110,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       textInputType: TextInputType.text,
                       isPswd: true,
                     ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 60),
-                      padding: const EdgeInsets.all(15),
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        color: Color.fromARGB(167, 255, 119, 65),
-                      ),
-                      child: const Text(
-                        "Log in",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
-                      ),
+                    InkWell(
+                      onTap: loginUser,
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 60),
+                              padding: const EdgeInsets.all(15),
+                              decoration: const ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                                color: Color.fromARGB(167, 255, 119, 65),
+                              ),
+                              child: const Text(
+                                "Log in",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
                     ),
                     const SizedBox(
                       height: 100,

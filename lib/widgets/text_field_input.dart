@@ -18,7 +18,7 @@ class TextFieldInput extends StatelessWidget {
     final inputBorder =
         OutlineInputBorder(borderSide: Divider.createBorderSide(context));
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 6),
       child: TextField(
         controller: textEditingController,
         decoration: InputDecoration(

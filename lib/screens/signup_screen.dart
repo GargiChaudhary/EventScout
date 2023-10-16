@@ -1,6 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:events/resources/auth_methods.dart';
+import 'package:events/responsive/responsive_layout.dart';
+import 'package:events/responsive/web_screen_layout.dart';
+import 'package:events/screens/home_screen.dart';
+import 'package:events/screens/landing_screen.dart';
 import 'package:events/screens/login_screen.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +25,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -36,6 +41,29 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioController.text,
+        file: _image!);
+    setState(() {
+      _isLoading = false;
+    });
+    if (res != "success") {
+      showSnackBar(res, context);
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenLayout: HomePage())));
+    }
   }
 
   @override
@@ -121,40 +149,41 @@ class _SignupScreenState extends State<SignupScreen> {
                         textEditingController: _bioController,
                         hintText: "Enter bio",
                         textInputType: TextInputType.text),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     InkWell(
-                      onTap: () async {
-                        String res = await AuthMethods().signUpUser(
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                            username: _usernameController.text,
-                            bio: _bioController.text,
-                            file: _image!);
-                        print(res);
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 60),
-                        padding: const EdgeInsets.all(15),
-                        decoration: const ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4))),
-                          color: Color.fromARGB(167, 255, 119, 65),
-                        ),
-                        child: const Text(
-                          "Register",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
+                      onTap: signUpUser,
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              padding: const EdgeInsets.all(15),
+                              decoration: const ShapeDecoration(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(4))),
+                                color: Color.fromARGB(167, 255, 119, 65),
+                              ),
+                              child: const Text(
+                                "Register",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
