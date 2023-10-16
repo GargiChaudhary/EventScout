@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
+import 'package:events/resources/auth_methods.dart';
 import 'package:events/screens/login_screen.dart';
+import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/text_field_input.dart';
 
@@ -15,6 +20,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  Uint8List? _image;
 
   @override
   void dispose() {
@@ -23,6 +29,13 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.dispose();
     _usernameController.dispose();
     _bioController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -46,7 +59,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 30,
                     ),
                     Text(
                       "Ready to explore?",
@@ -57,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(
-                      height: 14,
+                      height: 12,
                     ),
                     const Text(
                       "Let's go!",
@@ -70,10 +83,30 @@ class _SignupScreenState extends State<SignupScreen> {
                     const SizedBox(
                       height: 20,
                     ),
+                    Stack(
+                      children: [
+                        _image != null
+                            ? CircleAvatar(
+                                radius: 64,
+                                backgroundImage: MemoryImage(_image!),
+                              )
+                            : const CircleAvatar(
+                                radius: 64,
+                                backgroundImage: NetworkImage(
+                                    'https://www.asiamediajournal.com/wp-content/uploads/2022/11/Default-PFP.jpg'),
+                              ),
+                        Positioned(
+                            bottom: -10,
+                            left: 80,
+                            child: IconButton(
+                                onPressed: selectImage,
+                                icon: const Icon(Icons.add_a_photo)))
+                      ],
+                    ),
                     TextFieldInput(
                         textEditingController: _usernameController,
                         hintText: "Enter username",
-                        textInputType: TextInputType.emailAddress),
+                        textInputType: TextInputType.text),
                     TextFieldInput(
                         textEditingController: _emailController,
                         hintText: "Enter email",
@@ -84,24 +117,40 @@ class _SignupScreenState extends State<SignupScreen> {
                       textInputType: TextInputType.text,
                       isPswd: true,
                     ),
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 50, vertical: 60),
-                      padding: const EdgeInsets.all(15),
-                      decoration: const ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4))),
-                        color: Color.fromARGB(167, 255, 119, 65),
-                      ),
-                      child: const Text(
-                        "Register",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600),
+                    TextFieldInput(
+                        textEditingController: _bioController,
+                        hintText: "Enter bio",
+                        textInputType: TextInputType.text),
+                    InkWell(
+                      onTap: () async {
+                        String res = await AuthMethods().signUpUser(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            username: _usernameController.text,
+                            bio: _bioController.text,
+                            file: _image!);
+                        print(res);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 60),
+                        padding: const EdgeInsets.all(15),
+                        decoration: const ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4))),
+                          color: Color.fromARGB(167, 255, 119, 65),
+                        ),
+                        child: const Text(
+                          "Register",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 14,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                     const SizedBox(
