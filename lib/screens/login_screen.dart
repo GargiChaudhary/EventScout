@@ -70,11 +70,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 50,
                     ),
-                    const Text(
+                    Text(
                       "Hello Again!",
                       style: TextStyle(
                           fontSize: 30,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                           fontFamily: "Montserrat",
                           fontWeight: FontWeight.w600),
                     ),

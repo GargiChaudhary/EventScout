@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:events/model/our_user.dart';
 import 'package:events/resources/storage_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -31,13 +32,18 @@ class AuthMethods {
             .uploadImageToStorage('profilePic', file, false);
 
         //add user to our database
-        await _firestore.collection('users').doc(cred.user!.uid).set({
-          'username': username,
-          'uid': cred.user!.uid,
-          'email': email,
-          'bio': bio,
-          'photoUrl': photoUrl
-        });
+
+        OurUser ourUser = OurUser(
+            username: username,
+            email: email,
+            uid: cred.user!.uid,
+            photoUrl: photoUrl,
+            bio: bio);
+
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(ourUser.toJson());
 
         res = "success";
       }

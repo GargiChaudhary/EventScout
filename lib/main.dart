@@ -1,8 +1,7 @@
 import 'package:events/responsive/responsive_layout.dart';
 import 'package:events/responsive/web_screen_layout.dart';
+import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/landing_screen.dart';
-import 'package:events/screens/login_screen.dart';
-import 'package:events/screens/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const ResponsiveLayout(
                   webScreenLayout: WebScreenLayout(),
-                  mobileScreenLayout: LandingScreen());
+                  mobileScreenLayout: HomePage());
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('${snapshot.error}'),

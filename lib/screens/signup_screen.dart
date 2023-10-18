@@ -4,7 +4,6 @@ import 'package:events/resources/auth_methods.dart';
 import 'package:events/responsive/responsive_layout.dart';
 import 'package:events/responsive/web_screen_layout.dart';
 import 'package:events/screens/home_screen.dart';
-import 'package:events/screens/landing_screen.dart';
 import 'package:events/screens/login_screen.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
