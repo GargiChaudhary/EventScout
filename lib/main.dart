@@ -1,3 +1,4 @@
+import 'package:events/firebase_options.dart';
 import 'package:events/responsive/responsive_layout.dart';
 import 'package:events/responsive/web_screen_layout.dart';
 import 'package:events/screens/home_screen.dart';
@@ -18,7 +19,9 @@ void main() async {
             storageBucket: "eventscout-3035d.appspot.com",
             projectId: "eventscout-3035d"));
   } else {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 
   runApp(const MyApp());
