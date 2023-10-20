@@ -1,4 +1,5 @@
 import 'package:events/resources/auth_methods.dart';
+import 'package:events/responsive/mobile_screen_layout.dart';
 import 'package:events/screens/signup_screen.dart';
 import 'package:events/utils/utils.dart';
 import 'package:events/widgets/text_field_input.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import '../responsive/responsive_layout.dart';
 import '../responsive/web_screen_layout.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: HomePage())));
+              mobileScreenLayout: MobileScreen())));
     } else {
       showSnackBar(res, context);
     }

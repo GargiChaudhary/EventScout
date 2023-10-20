@@ -22,7 +22,7 @@ class _MobileScreenState extends State<MobileScreen> {
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
+    pageController = PageController(initialPage: _page);
   }
 
   @override
@@ -63,6 +63,8 @@ class _MobileScreenState extends State<MobileScreen> {
               MaterialPageRoute(builder: (context) => const AddEventScreen()));
         },
         backgroundColor: Colors.red,
+        elevation: 4,
+        shape: const CircleBorder(),
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -73,7 +75,7 @@ class _MobileScreenState extends State<MobileScreen> {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         elevation: 8,
         fabLocation: BubbleBottomBarFabLocation.end, //new
-        hasNotch: true, //new
+        // hasNotch: true, //new
         hasInk: true, //new, gives a cute ink effect
         inkColor: Colors.black12, //optional, uses theme color if not specified
         items: const <BubbleBottomBarItem>[

@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:events/resources/auth_methods.dart';
+import 'package:events/responsive/mobile_screen_layout.dart';
 import 'package:events/responsive/responsive_layout.dart';
 import 'package:events/responsive/web_screen_layout.dart';
-import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/login_screen.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const ResponsiveLayout(
               webScreenLayout: WebScreenLayout(),
-              mobileScreenLayout: HomePage())));
+              mobileScreenLayout: MobileScreen())));
     }
   }
 

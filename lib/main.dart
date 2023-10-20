@@ -28,24 +28,25 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-        primaryColor: const Color(0xFFFF4700),
-        useMaterial3: true,
-      ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-              return const ResponsiveLayout(
+              return ResponsiveLayout(
                   webScreenLayout: WebScreenLayout(),
                   mobileScreenLayout: MobileScreen());
             } else if (snapshot.hasError) {
@@ -61,7 +62,6 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-
           return const LandingScreen();
         },
       ),
