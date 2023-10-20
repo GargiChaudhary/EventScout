@@ -1,7 +1,8 @@
 import 'package:events/firebase_options.dart';
+import 'package:events/responsive/mobile_screen_layout.dart';
 import 'package:events/responsive/responsive_layout.dart';
 import 'package:events/responsive/web_screen_layout.dart';
-import 'package:events/screens/home_screen.dart';
+// import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/landing_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasData) {
               return const ResponsiveLayout(
                   webScreenLayout: WebScreenLayout(),
-                  mobileScreenLayout: HomePage());
+                  mobileScreenLayout: MobileScreen());
             } else if (snapshot.hasError) {
               return Center(
                 child: Text('${snapshot.error}'),
