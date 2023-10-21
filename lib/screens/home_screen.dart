@@ -1,7 +1,7 @@
 import 'package:events/providers/app_state.dart';
 import 'package:events/model/event.dart';
-import 'package:events/style_guide.dart';
 import 'package:events/screens/event_details_page.dart';
+import 'package:events/utils/colors.dart';
 import 'package:events/widgets/change_theme_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,8 +59,11 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         children: [
                           const Text(
-                            "LOCAL EVENTS",
-                            style: fadedTextStyle,
+                            "EventsScout",
+                            style: TextStyle(
+                                color: darkcolor4,
+                                fontFamily: 'Montserrat',
+                                fontSize: 16),
                           ),
                           const Spacer(),
                           ChangeThemeButtonWidget(
@@ -71,10 +74,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 32.0),
-                      child: Text(
-                        "What's Up",
-                        style: whiteHeadingTextStyle,
-                      ),
+                      child: Text("What's Up Gargi!",
+                          style: TextStyle(
+                              color: blackColor,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 30)),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24.0),

@@ -1,3 +1,4 @@
+import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class HomePageBackground extends StatelessWidget {
@@ -6,12 +7,12 @@ class HomePageBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
+    // final themeData = Theme.of(context);
     return ClipPath(
       clipper: BottomShapeClipper(),
       child: Container(
         height: screenHeight * 0.5,
-        color: themeData.primaryColor,
+        color: primaryColor,
       ),
     );
   }

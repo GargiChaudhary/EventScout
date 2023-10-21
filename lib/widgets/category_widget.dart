@@ -1,5 +1,6 @@
 import 'package:events/providers/app_state.dart';
 import 'package:events/style_guide.dart';
+import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/category.dart';
@@ -24,27 +25,37 @@ class CategoryWidget extends StatelessWidget {
         width: 90,
         height: 90,
         decoration: BoxDecoration(
-          border: Border.all(
-              color: isSelected ? Colors.white : const Color(0x99FFFFFF),
-              width: 3),
+          // boxShadow: const [
+          //   BoxShadow(
+          //     color: Color.fromARGB(255, 246, 139, 120),
+          //     spreadRadius: 1,
+          //     blurRadius: 5,
+          //     offset: Offset(0, 5),
+          //   )
+          // ],
+          border: Border.all(color: isSelected ? color1 : color3, width: 1),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
-          color: isSelected ? Colors.white : Colors.transparent,
+          color: isSelected ? color1 : Colors.transparent,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               category.icon,
-              color: isSelected ? Theme.of(context).primaryColor : Colors.white,
+              color: isSelected ? primaryColor : color1,
               size: 40,
             ),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              category.name,
-              style: isSelected ? selectedCategoryTextStyle : categoryTextStyle,
-            )
+            Text(category.name,
+                style: isSelected
+                    ? const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 15,
+                        color: primaryColor)
+                    : const TextStyle(
+                        fontFamily: 'Montserrat', fontSize: 15, color: color1))
           ],
         ),
       ),
