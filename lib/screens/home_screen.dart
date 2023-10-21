@@ -1,4 +1,4 @@
-import 'package:events/app_state.dart';
+import 'package:events/providers/app_state.dart';
 import 'package:events/model/event.dart';
 import 'package:events/style_guide.dart';
 import 'package:events/screens/event_details_page.dart';
@@ -41,93 +41,78 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: _isDarkMode ? _darkTheme : _lightTheme,
       home: Scaffold(
-        body: ChangeNotifierProvider<AppState>(
-          create: (_) => AppState(),
-          child: Stack(
-            children: [
-              HomePageBackground(
-                screenHeight: MediaQuery.of(context).size.height,
-              ),
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        body: Stack(
+          children: [
+            HomePageBackground(
+              screenHeight: MediaQuery.of(context).size.height,
+            ),
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "LOCAL EVENTS",
+                            style: fadedTextStyle,
+                          ),
+                          const Spacer(),
+                          ChangeThemeButtonWidget(
+                            onThemeToggle: toggleTheme,
+                          )
+                        ],
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32.0),
+                      child: Text(
+                        "What's Up",
+                        style: whiteHeadingTextStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 24.0),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
                         child: Row(
                           children: [
-                            const Text(
-                              "LOCAL EVENTS",
-                              style: fadedTextStyle,
-                            ),
-                            const Spacer(),
-                            // GestureDetector(
-                            //   onTap: () => ChangeThemeButtonWidget(),
-                            //   child: const Icon(
-                            //     Icons.person_outline,
-                            //     color: Color(0x99FFFFFF),
-                            //     size: 30,
-                            //   ),
-                            // )
-                            ChangeThemeButtonWidget(
-                              onThemeToggle: toggleTheme,
-                            )
+                            for (final category in categories)
+                              CategoryWidget(category: category)
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 32.0),
-                        child: Text(
-                          "What's Up",
-                          style: whiteHeadingTextStyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Consumer<AppState>(
+                        builder: (context, appState, _) => Column(
+                          children: <Widget>[
+                            for (final event in events.where((e) => e
+                                .categoryIds
+                                .contains(appState.selectedCategoryId)))
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          EventDetailsPage(event: event)));
+                                },
+                                child: EventWidget(event: event),
+                              )
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 24.0),
-                        child: Consumer<AppState>(
-                          builder: (context, appState, _) =>
-                              SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                for (final category in categories)
-                                  CategoryWidget(category: category)
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Consumer<AppState>(
-                          builder: (context, appState, _) => Column(
-                            children: <Widget>[
-                              for (final event in events.where((e) => e
-                                  .categoryIds
-                                  .contains(appState.selectedCategoryId)))
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EventDetailsPage(
-                                                    event: event)));
-                                  },
-                                  child: EventWidget(event: event),
-                                )
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:events/app_state.dart';
+import 'package:events/providers/app_state.dart';
 import 'package:events/style_guide.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
