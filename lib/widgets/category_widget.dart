@@ -1,5 +1,4 @@
 import 'package:events/providers/app_state.dart';
-import 'package:events/style_guide.dart';
 import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

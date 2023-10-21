@@ -4,6 +4,7 @@ import 'package:events/screens/bookmark_screen.dart';
 import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/profile_screen.dart';
 import 'package:events/screens/search_screen.dart';
+import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart' hide Badge;
 
 class MobileScreen extends StatefulWidget {
@@ -16,8 +17,6 @@ class MobileScreen extends StatefulWidget {
 class _MobileScreenState extends State<MobileScreen> {
   int _page = 0;
   late PageController pageController;
-  final Color primaryColor = Colors.white;
-  final Color secondaryColor = Colors.white;
 
   @override
   void initState() {
@@ -62,7 +61,7 @@ class _MobileScreenState extends State<MobileScreen> {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const AddEventScreen()));
         },
-        backgroundColor: Colors.red,
+        backgroundColor: primaryColor,
         elevation: 4,
         shape: const CircleBorder(),
         child: const Icon(Icons.add),
@@ -91,36 +90,36 @@ class _MobileScreenState extends State<MobileScreen> {
               ),
               title: Text("Home")),
           BubbleBottomBarItem(
-              backgroundColor: Colors.deepPurple,
+              backgroundColor: Colors.red,
               icon: Icon(
                 Icons.access_time,
                 color: Colors.black,
               ),
               activeIcon: Icon(
                 Icons.access_time,
-                color: Colors.deepPurple,
+                color: Colors.red,
               ),
               title: Text("Logs")),
           BubbleBottomBarItem(
-              backgroundColor: Colors.indigo,
+              backgroundColor: Colors.red,
               icon: Icon(
                 Icons.folder_open,
                 color: Colors.black,
               ),
               activeIcon: Icon(
                 Icons.folder_open,
-                color: Colors.indigo,
+                color: Colors.red,
               ),
               title: Text("Folders")),
           BubbleBottomBarItem(
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.red,
               icon: Icon(
                 Icons.menu,
                 color: Colors.black,
               ),
               activeIcon: Icon(
                 Icons.menu,
-                color: Colors.green,
+                color: Colors.red,
               ),
               title: Text("Menu"))
         ],

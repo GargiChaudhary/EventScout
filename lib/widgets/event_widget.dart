@@ -1,5 +1,4 @@
 import 'package:events/model/event.dart';
-import 'package:events/style_guide.dart';
 import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +40,7 @@ class EventWidget extends StatelessWidget {
                           event.title,
                           style: const TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 20,
+                              fontSize: 17,
                               color: blackColor),
                         ),
                         const SizedBox(
@@ -50,7 +49,10 @@ class EventWidget extends StatelessWidget {
                         FittedBox(
                           child: Row(
                             children: [
-                              const Icon(Icons.location_on),
+                              const Icon(
+                                Icons.location_on,
+                                size: 14,
+                              ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -58,7 +60,7 @@ class EventWidget extends StatelessWidget {
                                 event.location,
                                 style: const TextStyle(
                                     fontFamily: 'Montserrat',
-                                    fontSize: 15,
+                                    fontSize: 13,
                                     color: blackColor),
                               )
                             ],
@@ -74,7 +76,7 @@ class EventWidget extends StatelessWidget {
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                           fontFamily: 'Montserrat',
-                          fontSize: 20,
+                          fontSize: 17,
                           fontWeight: FontWeight.w600,
                           color: blackColor),
                     ),
