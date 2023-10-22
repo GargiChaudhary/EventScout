@@ -2,6 +2,7 @@ import 'package:events/providers/app_state.dart';
 import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
 import 'package:events/utils/colors.dart';
+import 'package:events/utils/palette.dart';
 import 'package:events/widgets/change_theme_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +22,15 @@ class _HomePageState extends State<HomePage> {
   final ThemeData _lightTheme = ThemeData(
       fontFamily: 'Montserrat',
       scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-      primaryColor: const Color(0xFFFF4700),
+      primaryColor: const Color(0xfff6a192),
+      primarySwatch: Palette.myPink,
       useMaterial3: true,
       colorScheme: const ColorScheme.light());
   final ThemeData _darkTheme = ThemeData(
       fontFamily: 'Montserrat',
       scaffoldBackgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-      primaryColor: const Color(0xFFFF4700),
+      primaryColor: const Color(0xfff6a192),
+      primarySwatch: Palette.myPink,
       useMaterial3: true,
       colorScheme: const ColorScheme.dark());
   bool _isDarkMode = false;
