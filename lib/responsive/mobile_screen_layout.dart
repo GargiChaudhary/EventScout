@@ -88,40 +88,52 @@ class _MobileScreenState extends State<MobileScreen> {
                 Icons.dashboard,
                 color: Colors.red,
               ),
-              title: Text("Home")),
+              title: Text(
+                "Home",
+                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+              )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
-                Icons.access_time,
+                Icons.search,
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.access_time,
+                Icons.search,
                 color: Colors.red,
               ),
-              title: Text("Logs")),
+              title: Text(
+                "Search",
+                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+              )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
-                Icons.folder_open,
+                Icons.bookmark_added_outlined,
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.folder_open,
+                Icons.bookmark_added_outlined,
                 color: Colors.red,
               ),
-              title: Text("Folders")),
+              title: Text(
+                "Saved",
+                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+              )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
-                Icons.menu,
+                Icons.person,
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.menu,
+                Icons.person,
                 color: Colors.red,
               ),
-              title: Text("Menu"))
+              title: Text(
+                "Profile",
+                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+              ))
         ],
       ),
     );

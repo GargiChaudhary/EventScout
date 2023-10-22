@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ThemeData _lightTheme = ThemeData(
+      hintColor: Colors.black,
+      brightness: Brightness.light,
       fontFamily: 'Montserrat',
       scaffoldBackgroundColor: const Color(0xFFFFFFFF),
       primaryColor: const Color(0xfff6a192),
@@ -27,9 +29,11 @@ class _HomePageState extends State<HomePage> {
       useMaterial3: true,
       colorScheme: const ColorScheme.light());
   final ThemeData _darkTheme = ThemeData(
+      hintColor: Colors.white,
       fontFamily: 'Montserrat',
+      brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color.fromRGBO(35, 35, 35, 1),
-      primaryColor: const Color(0xfff6a192),
+      primaryColor: darkcolor4,
       primarySwatch: Palette.myPink,
       useMaterial3: true,
       colorScheme: const ColorScheme.dark());
@@ -75,11 +79,11 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 32.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
                       child: Text("What's Up Gargi!",
                           style: TextStyle(
-                              color: blackColor,
+                              color: Theme.of(context).hintColor,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w500,
                               fontSize: 30)),

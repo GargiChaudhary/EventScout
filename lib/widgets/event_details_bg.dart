@@ -21,7 +21,7 @@ class EventDetailsBackground extends StatelessWidget {
           width: screenWidth,
           color: const Color(0x99000000),
           colorBlendMode: BlendMode.darken,
-          height: screenHeight * 0.5,
+          height: screenHeight * 0.43,
         ),
       ),
     );

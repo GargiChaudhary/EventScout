@@ -1,4 +1,3 @@
-import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class HomePageBackground extends StatelessWidget {
@@ -11,8 +10,8 @@ class HomePageBackground extends StatelessWidget {
     return ClipPath(
       clipper: BottomShapeClipper(),
       child: Container(
-        height: screenHeight * 0.5,
-        color: primaryColor,
+        height: screenHeight * 0.48,
+        color: Theme.of(context).primaryColor,
       ),
     );
   }
@@ -22,8 +21,8 @@ class BottomShapeClipper extends CustomClipper<Path> {
   @override
   getClip(Size size) {
     Path path = Path();
-    Offset curveStartPoint = Offset(0, size.height * 0.85);
-    Offset curveEndPoint = Offset(size.width, size.height * 0.85);
+    Offset curveStartPoint = Offset(0, size.height * 0.75);
+    Offset curveEndPoint = Offset(size.width, size.height * 0.75);
     path.lineTo(curveStartPoint.dx, curveStartPoint.dy);
     path.quadraticBezierTo(
         size.width / 2, size.height, curveEndPoint.dx, curveEndPoint.dy);

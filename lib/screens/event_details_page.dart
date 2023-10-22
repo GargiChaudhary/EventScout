@@ -11,9 +11,9 @@ class EventDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 4,
-      ),
+      // appBar: AppBar(
+      //   elevation: 4,
+      // ),
       body: Provider<Event>.value(
         value: event,
         child: const Stack(

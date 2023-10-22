@@ -1,5 +1,7 @@
 import 'package:events/model/guest.dart';
 import 'package:events/style_guide.dart';
+import 'package:events/utils/colors.dart';
+import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,27 +19,45 @@ class EventDetailsContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const SizedBox(
-            height: 100,
+            height: 30,
+          ),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: color1,
+              )),
+          const SizedBox(
+            height: 20,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.24),
+            padding: EdgeInsets.only(left: screenWidth * 0.30),
             child: Text(
               event.title,
-              style: eventWhiteTitleTextStyle,
+              style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 30,
+                  color: color1,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 16,
           ),
           Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.2),
+              padding: EdgeInsets.only(left: screenWidth * 0.30),
               child: FittedBox(
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       "-",
-                      style: eventLocationTextStyle.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 15,
+                          color: color1,
+                          fontWeight: FontWeight.w600),
                     ),
                     const Icon(
                       Icons.location_on,
@@ -49,14 +69,17 @@ class EventDetailsContent extends StatelessWidget {
                     ),
                     Text(
                       event.location,
-                      style: eventLocationTextStyle.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.w700),
+                      style: const TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 15,
+                          color: color1,
+                          fontWeight: FontWeight.w600),
                     )
                   ],
                 ),
               )),
           const SizedBox(
-            height: 80,
+            height: 100,
           ),
           const Padding(
             padding: EdgeInsets.only(left: 16),
@@ -88,21 +111,39 @@ class EventDetailsContent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: RichText(
               text: TextSpan(children: [
-                TextSpan(text: event.punchLine1, style: punchLine1TextStyle),
-                TextSpan(text: event.punchLine2, style: punchLine2TextStyle),
+                TextSpan(
+                  text: '${event.punchLine1} ',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 20,
+                      color: Palette.myPink.shade900,
+                      fontWeight: FontWeight.w600),
+                ),
+                TextSpan(
+                  text: event.punchLine2,
+                  style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
               ]),
             ),
           ),
           if (event.description.isNotEmpty)
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Text(
                 event.description,
-                style: eventLocationTextStyle,
+                style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 14,
+                  color: Colors.black,
+                ),
               ),
             ),
           if (event.galleryImages.isNotEmpty)
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 16, top: 16, bottom: 16),
               child: Text(
                 "GALLERY",
