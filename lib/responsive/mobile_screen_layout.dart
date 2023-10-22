@@ -49,11 +49,10 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: const [
-          HomePage(),
+          ProfileScreen(),
           SearchScreen(),
-          AddEventScreen(),
           BookmarkScreen(),
-          ProfileScreen()
+          HomePage()
         ],
       ),
       floatingActionButton: FloatingActionButton(

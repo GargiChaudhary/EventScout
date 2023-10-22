@@ -1,19 +1,27 @@
-import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-class HomePageBackground extends StatelessWidget {
+class ProfilePageBackground extends StatelessWidget {
   final screenHeight;
-  const HomePageBackground({super.key, this.screenHeight});
+  final String imageUrl;
+  const ProfilePageBackground(
+      {super.key, this.screenHeight, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: BottomShapeClipper(),
-      child: Container(
-        height: screenHeight * 0.48,
-        color: primaryColor,
+    return Stack(children: [
+      ClipPath(
+        clipper: BottomShapeClipper(),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.black,
+              image: DecorationImage(
+                  opacity: 0.3,
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.cover)),
+          height: screenHeight * 0.3,
+        ),
       ),
-    );
+    ]);
   }
 }
 
