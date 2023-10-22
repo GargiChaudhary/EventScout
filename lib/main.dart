@@ -1,5 +1,6 @@
 import 'package:events/firebase_options.dart';
 import 'package:events/providers/app_state.dart';
+import 'package:events/providers/theme_provider.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/responsive/mobile_screen_layout.dart';
 import 'package:events/responsive/responsive_layout.dart';
@@ -44,35 +45,42 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => AppState()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return const ResponsiveLayout(
-                    webScreenLayout: WebScreenLayout(),
-                    mobileScreenLayout: MobileScreen());
-              } else if (snapshot.hasError) {
+      child: Builder(builder: (context) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        return MaterialApp(
+          themeMode: themeProvider.themeMode,
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  return const ResponsiveLayout(
+                      webScreenLayout: WebScreenLayout(),
+                      mobileScreenLayout: MobileScreen());
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                }
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: Text('${snapshot.error}'),
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).primaryColor,
+                  ),
                 );
               }
-            }
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor,
-                ),
-              );
-            }
-            return const LandingScreen();
-          },
-        ),
-      ),
+              return const LandingScreen();
+            },
+          ),
+        );
+      }),
     );
   }
 }

@@ -1,31 +1,20 @@
+import 'package:events/providers/theme_provider.dart';
+import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ChangeThemeButtonWidget extends StatefulWidget {
-  final ValueChanged<bool> onThemeToggle;
-  const ChangeThemeButtonWidget({super.key, required this.onThemeToggle});
-
-  @override
-  State<ChangeThemeButtonWidget> createState() =>
-      _ChangeThemeButtonWidgetState();
-}
-
-class _ChangeThemeButtonWidgetState extends State<ChangeThemeButtonWidget> {
-  bool iconBool = false;
-  IconData iconLight = Icons.wb_sunny;
-  IconData iconDark = Icons.nights_stay;
-
-  bool get getIconBool => iconBool;
+class ChangeThemeButtonWidget extends StatelessWidget {
+  const ChangeThemeButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          iconBool = !iconBool;
-          widget.onThemeToggle(iconBool);
-        });
-      },
-      icon: Icon(iconBool ? iconDark : iconLight),
-    );
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return Switch.adaptive(
+        activeColor: primaryColor,
+        value: themeProvider.isDarkMode,
+        onChanged: ((value) {
+          final provider = Provider.of<ThemeProvider>(context, listen: false);
+          provider.toggleTheme(value);
+        }));
   }
 }

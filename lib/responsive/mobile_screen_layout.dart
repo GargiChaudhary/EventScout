@@ -49,10 +49,10 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: const [
-          ProfileScreen(),
+          HomePage(),
           SearchScreen(),
           BookmarkScreen(),
-          HomePage()
+          ProfileScreen()
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -67,6 +67,7 @@ class _MobileScreenState extends State<MobileScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BubbleBottomBar(
+        backgroundColor: Theme.of(context).focusColor,
         opacity: .2,
         currentIndex: _page,
         onTap: navigationTapped,
