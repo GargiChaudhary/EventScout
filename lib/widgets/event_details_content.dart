@@ -1,10 +1,8 @@
 import 'package:events/model/guest.dart';
-import 'package:events/style_guide.dart';
 import 'package:events/utils/colors.dart';
 import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../model/event.dart';
 
 class EventDetailsContent extends StatelessWidget {
@@ -81,11 +79,15 @@ class EventDetailsContent extends StatelessWidget {
           const SizedBox(
             height: 100,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 16),
+          Padding(
+            padding: const EdgeInsets.only(left: 16),
             child: Text(
               "GUESTS",
-              style: guestTextStyle,
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 16,
+                  color: Theme.of(context).hintColor,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           SingleChildScrollView(
@@ -121,10 +123,10 @@ class EventDetailsContent extends StatelessWidget {
                 ),
                 TextSpan(
                   text: event.punchLine2,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w600),
                 ),
               ]),
@@ -135,19 +137,23 @@ class EventDetailsContent extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Text(
                 event.description,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontSize: 14,
-                  color: Colors.black,
+                  color: Theme.of(context).hintColor,
                 ),
               ),
             ),
           if (event.galleryImages.isNotEmpty)
-            const Padding(
-              padding: EdgeInsets.only(left: 16, top: 16, bottom: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16, bottom: 16),
               child: Text(
                 "GALLERY",
-                style: guestTextStyle,
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 16,
+                    color: Theme.of(context).hintColor,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           SingleChildScrollView(

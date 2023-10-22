@@ -75,64 +75,76 @@ class _MobileScreenState extends State<MobileScreen> {
         elevation: 8,
         fabLocation: BubbleBottomBarFabLocation.end, //new
         // hasNotch: true, //new
-        hasInk: true, //new, gives a cute ink effect
-        inkColor: Colors.black12, //optional, uses theme color if not specified
-        items: const <BubbleBottomBarItem>[
+        // hasInk: true, //new, gives a cute ink effect
+        // inkColor: Colors.black12, //optional, uses theme color if not specified
+        items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
                 Icons.dashboard,
-                color: Colors.black,
+                color: Theme.of(context).hintColor,
               ),
               activeIcon: Icon(
                 Icons.dashboard,
-                color: Colors.red,
+                color: Theme.of(context).hintColor,
               ),
               title: Text(
                 "Home",
-                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    color: Theme.of(context).hintColor),
               )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
                 Icons.search,
-                color: Colors.black,
+                color: Theme.of(context).hintColor,
               ),
               activeIcon: Icon(
                 Icons.search,
-                color: Colors.red,
+                color: Theme.of(context).hintColor,
               ),
               title: Text(
                 "Search",
-                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    color: Theme.of(context).hintColor),
               )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
                 Icons.bookmark_added_outlined,
-                color: Colors.black,
+                color: Theme.of(context).hintColor,
               ),
               activeIcon: Icon(
                 Icons.bookmark_added_outlined,
-                color: Colors.red,
+                color: Theme.of(context).hintColor,
               ),
               title: Text(
                 "Saved",
-                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    color: Theme.of(context).hintColor),
               )),
           BubbleBottomBarItem(
               backgroundColor: Colors.red,
               icon: Icon(
                 Icons.person,
-                color: Colors.black,
+                color: Theme.of(context).hintColor,
               ),
               activeIcon: Icon(
                 Icons.person,
-                color: Colors.red,
+                color: Theme.of(context).hintColor,
               ),
               title: Text(
                 "Profile",
-                style: TextStyle(fontFamily: 'Montserrat', fontSize: 12),
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 12,
+                    color: Theme.of(context).hintColor),
               ))
         ],
       ),

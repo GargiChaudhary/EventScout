@@ -1,7 +1,6 @@
 import 'package:events/providers/app_state.dart';
 import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
-import 'package:events/utils/colors.dart';
 import 'package:events/widgets/change_theme_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

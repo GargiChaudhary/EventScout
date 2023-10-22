@@ -14,6 +14,7 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static final darkTheme = ThemeData(
+      highlightColor: Colors.white,
       focusColor: darkcolor4,
       hintColor: Colors.white,
       fontFamily: 'Montserrat',
@@ -24,6 +25,7 @@ class MyThemes {
       useMaterial3: true,
       colorScheme: const ColorScheme.dark());
   static final lightTheme = ThemeData(
+      highlightColor: Colors.red,
       focusColor: Colors.white,
       hintColor: Colors.black,
       brightness: Brightness.light,

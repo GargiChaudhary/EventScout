@@ -24,14 +24,6 @@ class CategoryWidget extends StatelessWidget {
         width: 90,
         height: 90,
         decoration: BoxDecoration(
-          // boxShadow: const [
-          //   BoxShadow(
-          //     color: Color.fromARGB(255, 246, 139, 120),
-          //     spreadRadius: 1,
-          //     blurRadius: 5,
-          //     offset: Offset(0, 5),
-          //   )
-          // ],
           border: Border.all(color: isSelected ? color1 : color3, width: 1),
           borderRadius: const BorderRadius.all(Radius.circular(16)),
           color: isSelected ? color1 : Colors.transparent,
@@ -41,7 +33,7 @@ class CategoryWidget extends StatelessWidget {
           children: [
             Icon(
               category.icon,
-              color: isSelected ? primaryColor : color1,
+              color: isSelected ? Theme.of(context).primaryColor : color1,
               size: 40,
             ),
             const SizedBox(
@@ -49,10 +41,10 @@ class CategoryWidget extends StatelessWidget {
             ),
             Text(category.name,
                 style: isSelected
-                    ? const TextStyle(
+                    ? TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 15,
-                        color: primaryColor)
+                        color: Theme.of(context).primaryColor)
                     : const TextStyle(
                         fontFamily: 'Montserrat', fontSize: 15, color: color1))
           ],

@@ -1,5 +1,4 @@
 import 'package:events/model/event.dart';
-import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class EventWidget extends StatelessWidget {
@@ -11,7 +10,7 @@ class EventWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 15),
       elevation: 4,
-      color: primaryColor2,
+      color: Theme.of(context).primaryColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: Padding(
@@ -38,10 +37,10 @@ class EventWidget extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           event.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 17,
-                              color: blackColor),
+                              color: Theme.of(context).hintColor),
                         ),
                         const SizedBox(
                           height: 5,
@@ -49,19 +48,20 @@ class EventWidget extends StatelessWidget {
                         FittedBox(
                           child: Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.location_on,
                                 size: 14,
+                                color: Theme.of(context).hintColor,
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 event.location,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontFamily: 'Montserrat',
                                     fontSize: 13,
-                                    color: blackColor),
+                                    color: Theme.of(context).hintColor),
                               )
                             ],
                           ),
@@ -74,11 +74,11 @@ class EventWidget extends StatelessWidget {
                     child: Text(
                       event.duration.toUpperCase(),
                       textAlign: TextAlign.right,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 17,
                           fontWeight: FontWeight.w600,
-                          color: blackColor),
+                          color: Theme.of(context).hintColor),
                     ),
                   )
                 ],
