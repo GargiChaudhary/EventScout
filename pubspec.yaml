@@ -70,6 +70,7 @@ flutter:
     - assets/event_images/
     - assets/guest_images/
     - assets/images/explorerbg.png
+    - assets/images/select.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
