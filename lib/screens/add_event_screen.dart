@@ -16,6 +16,8 @@ class AddEventScreen extends StatefulWidget {
 
 class _AddEventScreenState extends State<AddEventScreen> {
   Uint8List? _file;
+  final TextEditingController _titleController = TextEditingController();
+  // bool _isLoading = false;
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -46,14 +48,31 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   });
                 },
               ),
+              SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
           );
         });
   }
 
+  void postEvent(String uid, String username, String profImage) async {
+    try {} catch (e) {}
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final OurUser ourUser = Provider.of<UserProvider>(context).getUser;
+    final OurUser ourUser = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -109,10 +128,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 20,
                     backgroundImage: NetworkImage(
-                        'https://www.euroschoolindia.com/blogs/wp-content/webp-express/webp-images/uploads/2023/08/cartoons-for-kids.jpg.webp'),
+                        ourUser.photoUrl), // it is the error causing line
                   ),
                   const SizedBox(
                     width: 10,
