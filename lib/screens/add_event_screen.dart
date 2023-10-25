@@ -3,6 +3,7 @@ import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
+import 'package:events/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -129,26 +130,24 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 12,
+                      fontWeight: FontWeight.w600,
                       color: Theme.of(context).hintColor),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  height: MediaQuery.of(context).size.width * 0.75,
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      image: const DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/images/select.png'))),
+                GestureDetector(
+                  onTap: () => _selectImage(context),
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        image: const DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/images/select.png'))),
+                  ),
                 ),
-                const SizedBox(height: 10),
-                IconButton(
-                    onPressed: () => _selectImage(context),
-                    icon: Icon(
-                      Icons.upload,
-                      color: Theme.of(context).primaryColor,
-                    )),
               ],
             )),
           )
@@ -213,27 +212,86 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           width: 10,
                         ),
                         CircleAvatar(
-                          // radius: 20,
+                          radius: 20,
                           backgroundImage: NetworkImage(
                               user.photoUrl), // it is the error causing line
                         ),
-
-                        // CircleAvatar(
-                        //   backgroundImage: NetworkImage(ourUser.photoUrl),
-                        // ),
                         const SizedBox(
                           width: 10,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.width * 0.75,
-                          width: MediaQuery.of(context).size.width * 0.75,
+                          height: MediaQuery.of(context).size.width * 0.7,
+                          width: MediaQuery.of(context).size.width * 0.7,
                           decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
                               image: DecorationImage(
                                   fit: BoxFit.fill,
                                   image: MemoryImage(_file!))),
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFieldInput(
+                        textEditingController: _titleController,
+                        hintText: "Event Title",
+                        textInputType: TextInputType.text),
+                    TextFieldInput(
+                        textEditingController: _punchLineController,
+                        hintText: "Event Subtitle",
+                        textInputType: TextInputType.text),
+                    TextFieldInput(
+                        textEditingController: _locationController,
+                        hintText: "Event location",
+                        textInputType: TextInputType.text),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50.0, vertical: 6),
+                      child: TextField(
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Theme.of(context).hintColor,
+                            fontSize: 13),
+                        controller: _durationController,
+                        decoration: InputDecoration(
+                          fillColor: Theme.of(context).primaryColor,
+                          filled: true,
+                          hintText: "Event date",
+                          hintStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              color: Theme.of(context).hintColor,
+                              fontSize: 13),
+                          suffixIcon: IconButton(
+                            icon: const Icon(
+                              Icons.calendar_today,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2023),
+                                lastDate: DateTime(2101),
+                              ).then((pickedDate) {
+                                if (pickedDate != null) {
+                                  setState(() {
+                                    _durationController.text =
+                                        pickedDate.toString();
+                                  });
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    TextFieldInput(
+                        textEditingController: _descriptionController,
+                        hintText: "Event Description...",
+                        maxLines: 8,
+                        textInputType: TextInputType.text),
                   ],
                 ),
               ),
