@@ -25,18 +25,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final List galleryImages = [];
   bool _isLoading = false;
 
-  // UserProvider userProvider = UserProvider();
-
-  // void refresh() async {
-  //   await userProvider.refreshUser();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   refresh();
-  // }
-
   _selectImage(BuildContext context) async {
     return showDialog(
         context: context,
@@ -128,8 +116,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final OurUser? ourUser = Provider.of<UserProvider>(context).getUser;
-    print(' THE PHOTOURL IS: ${ourUser!.photoUrl} ');
+    final User user = Provider.of<UserProvider>(context).getUser;
+    // print(' THE PHOTOURL IS: ${user.photoUrl} ');
     return _file == null
         ? Scaffold(
             body: Center(
@@ -224,10 +212,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         const SizedBox(
                           width: 10,
                         ),
-                        const CircleAvatar(
-                          radius: 20,
+                        CircleAvatar(
+                          // radius: 20,
                           backgroundImage: NetworkImage(
-                              'https://imgcdn.floweraura.com/doraemon-fam-cartoon-cake-9872840ca-BBB.jpg'), // it is the error causing line
+                              user.photoUrl), // it is the error causing line
                         ),
 
                         // CircleAvatar(

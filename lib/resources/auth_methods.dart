@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:events/model/our_user.dart';
+import 'package:events/model/our_user.dart' as model;
 import 'package:events/resources/storage_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,13 +9,13 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<OurUser> getUserDetails() async {
+  Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
     DocumentSnapshot snap =
         await _firestore.collection('users').doc(currentUser.uid).get();
 
-    return OurUser.fromSnap(snap);
+    return model.User.fromSnap(snap);
   }
 
   // sign up method
@@ -42,7 +42,7 @@ class AuthMethods {
 
         //add user to our database
 
-        OurUser ourUser = OurUser(
+        model.User user = model.User(
             username: username,
             email: email,
             uid: cred.user!.uid,
@@ -52,7 +52,7 @@ class AuthMethods {
         await _firestore
             .collection('users')
             .doc(cred.user!.uid)
-            .set(ourUser.toJson());
+            .set(user.toJson());
 
         res = "success";
       }
