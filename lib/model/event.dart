@@ -69,6 +69,21 @@ class Event {
   }
 }
 
+Future<List<Event>?> fetchAllEvents() async {
+  List<Event> events = [];
+  try {
+    QuerySnapshot eventQuery =
+        await FirebaseFirestore.instance.collection('events').get();
+    eventQuery.docs.forEach((eventDoc) {
+      Event event = Event.fromSnap(eventDoc);
+      events.add(event);
+    });
+  } catch (e) {
+    print("Error fetching events: $e");
+  }
+  return events;
+}
+
 // final fiveKmRunEvent = Event(
 //     imagePath: "assets/event_images/5_km_downtown_run.jpeg",
 //     title: "5 Kilometer Downtown Run",

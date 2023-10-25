@@ -1,7 +1,7 @@
 import 'dart:typed_data';
-
 import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
+import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +17,25 @@ class AddEventScreen extends StatefulWidget {
 class _AddEventScreenState extends State<AddEventScreen> {
   Uint8List? _file;
   final TextEditingController _titleController = TextEditingController();
-  // bool _isLoading = false;
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _durationController = TextEditingController();
+  final TextEditingController _punchLineController = TextEditingController();
+  final List categoryIds = [0, 1, 2, 3];
+  final List galleryImages = [];
+  bool _isLoading = false;
+
+  // UserProvider userProvider = UserProvider();
+
+  // void refresh() async {
+  //   await userProvider.refreshUser();
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   refresh();
+  // }
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -60,8 +78,46 @@ class _AddEventScreenState extends State<AddEventScreen> {
         });
   }
 
-  void postEvent(String uid, String username, String profImage) async {
-    try {} catch (e) {}
+  void postEvent(
+      String uid, String username, String profImage, String bio) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      String res = await FirestoreMethods().uploadEvent(
+          _titleController.text,
+          _file!,
+          uid,
+          _descriptionController.text,
+          username,
+          profImage,
+          bio,
+          _locationController.text,
+          _durationController.text,
+          _punchLineController.text,
+          categoryIds,
+          galleryImages);
+      if (res == "success") {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar("Posted new event!", context);
+        clearImage();
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
+  void clearImage() {
+    setState(() {
+      _file = null;
+    });
   }
 
   @override
@@ -72,108 +128,128 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final OurUser ourUser = Provider.of<UserProvider>(context).getUser;
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        elevation: 5,
-        centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-          "Add your event!!!",
-          style: TextStyle(
-              color: Theme.of(context).hintColor,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Montserrat'),
-        ),
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Theme.of(context).hintColor,
+    final OurUser? ourUser = Provider.of<UserProvider>(context).getUser;
+    print(' THE PHOTOURL IS: ${ourUser!.photoUrl} ');
+    return _file == null
+        ? Scaffold(
+            body: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Upload event image',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 12,
+                      color: Theme.of(context).hintColor),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.75,
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      image: const DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/images/select.png'))),
+                ),
+                const SizedBox(height: 10),
+                IconButton(
+                    onPressed: () => _selectImage(context),
+                    icon: Icon(
+                      Icons.upload,
+                      color: Theme.of(context).primaryColor,
+                    )),
+              ],
             )),
-        actions: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.check,
-                    color: Theme.of(context).hintColor,
-                  )),
-              Text(
-                'Post',
+          )
+        : Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 70,
+              elevation: 5,
+              centerTitle: true,
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Text(
+                "Add your event!!!",
                 style: TextStyle(
                     color: Theme.of(context).hintColor,
-                    fontSize: 12,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Montserrat'),
-              )
-            ],
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(
-                        ourUser.photoUrl), // it is the error causing line
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Stack(children: [
-                    Visibility(
-                      visible: _file != null,
-                      child: Container(
-                        height: MediaQuery.of(context).size.width * 0.75,
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    'https://www.euroschoolindia.com/blogs/wp-content/webp-express/webp-images/uploads/2023/08/cartoons-for-kids.jpg.webp'))),
-                      ),
+              leading: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Theme.of(context).hintColor,
+                  )),
+              actions: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        // onPressed: () => postEvent(ourUser.uid, ourUser.username,
+                        //     ourUser.photoUrl, ourUser.bio),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.check,
+                          color: Theme.of(context).hintColor,
+                        )),
+                    Text(
+                      'Post',
+                      style: TextStyle(
+                          color: Theme.of(context).hintColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat'),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _isLoading
+                        ? const LinearProgressIndicator()
+                        : const Padding(padding: EdgeInsets.only(top: 0)),
+                    const SizedBox(
+                      height: 10,
                     ),
-                    Visibility(
-                      visible: _file == null,
-                      child: GestureDetector(
-                        onTap: () => _selectImage(context),
-                        child: Container(
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(
+                              'https://imgcdn.floweraura.com/doraemon-fam-cartoon-cake-9872840ca-BBB.jpg'), // it is the error causing line
+                        ),
+
+                        // CircleAvatar(
+                        //   backgroundImage: NetworkImage(ourUser.photoUrl),
+                        // ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Container(
                           height: MediaQuery.of(context).size.width * 0.75,
                           width: MediaQuery.of(context).size.width * 0.75,
                           decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              image: const DecorationImage(
+                              image: DecorationImage(
                                   fit: BoxFit.fill,
-                                  image:
-                                      AssetImage('assets/images/select.png'))),
+                                  image: MemoryImage(_file!))),
                         ),
-                      ),
-                    )
-                  ])
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
   }
 }

@@ -21,7 +21,7 @@ class EventWidget extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               child: Image.asset(
-                event.imagePath,
+                event.eventUrl,
                 height: 150,
                 fit: BoxFit.fitWidth,
               ),

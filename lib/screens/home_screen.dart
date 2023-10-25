@@ -17,6 +17,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Event> allEvents = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllEvents().then((events) {
+      if (events != null) {
+        setState(() {
+          allEvents = events;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +86,8 @@ class _HomePageState extends State<HomePage> {
                     child: Consumer<AppState>(
                       builder: (context, appState, _) => Column(
                         children: <Widget>[
-                          for (final event in events.where((e) => e.categoryIds
+                          for (final event in allEvents.where((e) => e
+                              .categoryIds
                               .contains(appState.selectedCategoryId)))
                             GestureDetector(
                               onTap: () {

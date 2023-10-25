@@ -111,26 +111,34 @@ class EventDetailsContent extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                  text: '${event.punchLine1} ',
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 20,
-                      color: Palette.myPink.shade900,
-                      fontWeight: FontWeight.w600),
-                ),
-                TextSpan(
-                  text: event.punchLine2,
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 20,
-                      color: Theme.of(context).hintColor,
-                      fontWeight: FontWeight.w600),
-                ),
-              ]),
+            child: Text(
+              event.punchLine,
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontSize: 20,
+                  color: Palette.myPink.shade900,
+                  fontWeight: FontWeight.w600),
             ),
+            // child: RichText(
+            //   text: TextSpan(children: [
+            //     TextSpan(
+            //       text: '${event.punchLine1} ',
+            //       style: TextStyle(
+            //           fontFamily: 'Montserrat',
+            //           fontSize: 20,
+            //           color: Palette.myPink.shade900,
+            //           fontWeight: FontWeight.w600),
+            //     ),
+            //     TextSpan(
+            //       text: event.punchLine2,
+            //       style: TextStyle(
+            //           fontFamily: 'Montserrat',
+            //           fontSize: 20,
+            //           color: Theme.of(context).hintColor,
+            //           fontWeight: FontWeight.w600),
+            //     ),
+            //   ]),
+            // ),
           ),
           if (event.description.isNotEmpty)
             Padding(

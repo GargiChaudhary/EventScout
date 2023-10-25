@@ -3,6 +3,7 @@ import 'package:events/screens/add_event_screen.dart';
 import 'package:events/screens/bookmark_screen.dart';
 import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/profile_screen.dart';
+import 'package:events/screens/search_screen.dart';
 import 'package:events/utils/colors.dart';
 import 'package:flutter/material.dart' hide Badge;
 
@@ -48,8 +49,8 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: const [
-          AddEventScreen(),
           HomePage(),
+          SearchScreen(),
           BookmarkScreen(),
           ProfileScreen()
         ],

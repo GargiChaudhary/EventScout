@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<String> uploadPost(
+  Future<String> uploadEvent(
       String title,
       Uint8List file,
       String uid,
@@ -24,7 +24,7 @@ class FirestoreMethods {
     String res = "some error occured";
     try {
       String photoUrl =
-          await StorageMethods().uploadImageToStorage('posts', file, true);
+          await StorageMethods().uploadImageToStorage('events', file, true);
 
       String eventId = const Uuid().v1();
 
