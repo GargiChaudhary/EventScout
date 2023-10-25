@@ -15,6 +15,8 @@ class AddEventScreen extends StatefulWidget {
   State<AddEventScreen> createState() => _AddEventScreenState();
 }
 
+const List<String> list = <String>['Music', 'Education', 'Political', 'Sports'];
+
 class _AddEventScreenState extends State<AddEventScreen> {
   Uint8List? _file;
   final TextEditingController _titleController = TextEditingController();
@@ -22,7 +24,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _punchLineController = TextEditingController();
-  final List categoryIds = [0, 1, 2, 3];
+  final List categoryIds = [0];
   final List galleryImages = [];
   bool _isLoading = false;
 
@@ -118,7 +120,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
-    // print(' THE PHOTOURL IS: ${user.photoUrl} ');
+    int? categoryId;
     return _file == null
         ? Scaffold(
             body: Center(
@@ -242,6 +244,90 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         textEditingController: _punchLineController,
                         hintText: "Event Subtitle",
                         textInputType: TextInputType.text),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50.0, vertical: 6),
+                      child: DropdownMenu<int>(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          label: Text(
+                            'Event type',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: Theme.of(context).hintColor,
+                                fontSize: 13),
+                          ),
+                          onSelected: (int? newValue) {
+                            setState(() {
+                              categoryId = newValue ??
+                                  0; // Use null-aware operator to handle null case
+                              if (categoryId != null) {
+                                categoryIds.add(categoryId);
+                              }
+                            });
+                          },
+                          inputDecorationTheme: InputDecorationTheme(
+                            filled: true,
+                            fillColor: Theme.of(context).primaryColor,
+                            contentPadding:
+                                const EdgeInsets.symmetric(vertical: 5.0),
+                          ),
+                          dropdownMenuEntries: const <DropdownMenuEntry<int>>[
+                            DropdownMenuEntry(value: 1, label: 'Music'),
+                            DropdownMenuEntry(value: 2, label: 'Sports'),
+                            DropdownMenuEntry(value: 3, label: 'Education'),
+                            DropdownMenuEntry(value: 4, label: 'Political'),
+                            DropdownMenuEntry(value: 5, label: 'Others'),
+                          ]),
+                    ),
+
+                    // DropdownMenu<int>(
+
+                    // value: categoryId,
+                    // icon: const Icon(Icons.arrow_downward),
+                    // iconSize: 24,
+                    // elevation: 16,
+                    // style: TextStyle(
+                    //   color: Theme.of(context).hintColor,
+                    // ),
+                    // underline: Container(
+                    //   height: 2,
+                    //   color: Theme.of(context).primaryColor,
+                    // ),
+
+                    //     onChanged: (int? newValue) {
+                    //       setState(() {
+                    //         categoryId = newValue ??
+                    //             0; // Use null-aware operator to handle null case
+                    //         if (categoryId != null) {
+                    //           categoryIds.add(categoryId);
+                    //         }
+                    //       });
+                    //     },
+                    //     dropdownMenuEntries: const <DropdownMenuItem<int>>[
+                    //       DropdownMenuItem<int>(
+                    //         value: 1,
+                    //         child: Text('Music'),
+                    //       ),
+                    //       DropdownMenuItem<int>(
+                    //         value: 2,
+                    //         child: Text('Sports'),
+                    //       ),
+                    //       DropdownMenuItem<int>(
+                    //         value: 3,
+                    //         child: Text('Education'),
+                    //       ),
+                    //       DropdownMenuItem<int>(
+                    //         value: 4,
+                    //         child: Text('Political'),
+                    //       ),
+                    //       DropdownMenuItem<int>(
+                    //         value: 5,
+                    //         child: Text('Others'),
+                    //       ),
+                    //     ],
+                    //   ),
+
                     TextFieldInput(
                         textEditingController: _locationController,
                         hintText: "Event location",
