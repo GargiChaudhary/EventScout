@@ -1,9 +1,10 @@
-import 'dart:typed_data';
+import 'dart:io';
 import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
 import 'package:events/widgets/text_field_input.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -24,9 +25,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _punchLineController = TextEditingController();
-  final List categoryIds = [0];
-  final List galleryImages = [];
+  final List categoryIds = [];
+
+  List<File> galleryImages = [];
   bool _isLoading = false;
+  final ImagePicker picker = ImagePicker();
 
   _selectImage(BuildContext context) async {
     return showDialog(
@@ -244,12 +247,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         textEditingController: _punchLineController,
                         hintText: "Event Subtitle",
                         textInputType: TextInputType.text),
-
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50.0, vertical: 6),
                       child: DropdownMenu<int>(
-                          width: MediaQuery.of(context).size.width * 0.8,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           label: Text(
                             'Event type',
                             style: TextStyle(
@@ -262,8 +264,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               categoryId = newValue ??
                                   0; // Use null-aware operator to handle null case
                               if (categoryId != null) {
+                                categoryIds.clear();
                                 categoryIds.add(categoryId);
+                                categoryIds.add(0);
                               }
+                              // print("Category id is : ${categoryId}");
+                              // print("Category id list : ${categoryIds}");
                             });
                           },
                           inputDecorationTheme: InputDecorationTheme(
@@ -280,54 +286,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             DropdownMenuEntry(value: 5, label: 'Others'),
                           ]),
                     ),
-
-                    // DropdownMenu<int>(
-
-                    // value: categoryId,
-                    // icon: const Icon(Icons.arrow_downward),
-                    // iconSize: 24,
-                    // elevation: 16,
-                    // style: TextStyle(
-                    //   color: Theme.of(context).hintColor,
-                    // ),
-                    // underline: Container(
-                    //   height: 2,
-                    //   color: Theme.of(context).primaryColor,
-                    // ),
-
-                    //     onChanged: (int? newValue) {
-                    //       setState(() {
-                    //         categoryId = newValue ??
-                    //             0; // Use null-aware operator to handle null case
-                    //         if (categoryId != null) {
-                    //           categoryIds.add(categoryId);
-                    //         }
-                    //       });
-                    //     },
-                    //     dropdownMenuEntries: const <DropdownMenuItem<int>>[
-                    //       DropdownMenuItem<int>(
-                    //         value: 1,
-                    //         child: Text('Music'),
-                    //       ),
-                    //       DropdownMenuItem<int>(
-                    //         value: 2,
-                    //         child: Text('Sports'),
-                    //       ),
-                    //       DropdownMenuItem<int>(
-                    //         value: 3,
-                    //         child: Text('Education'),
-                    //       ),
-                    //       DropdownMenuItem<int>(
-                    //         value: 4,
-                    //         child: Text('Political'),
-                    //       ),
-                    //       DropdownMenuItem<int>(
-                    //         value: 5,
-                    //         child: Text('Others'),
-                    //       ),
-                    //     ],
-                    //   ),
-
                     TextFieldInput(
                         textEditingController: _locationController,
                         hintText: "Event location",
@@ -378,6 +336,40 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         hintText: "Event Description...",
                         maxLines: 8,
                         textInputType: TextInputType.text),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).primaryColor)),
+                      child: Text(
+                        'Select mages',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            color: Theme.of(context).hintColor,
+                            fontSize: 13),
+                      ),
+                      onPressed: () {
+                        // getImages();
+                      },
+                    ),
+                    SizedBox(
+                      width: 300.0,
+                      child: galleryImages.isEmpty
+                          ? const Center(
+                              child: Text('Sorry nothing selected!!'))
+                          : GridView.builder(
+                              itemCount: galleryImages.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemBuilder: (BuildContext context, int index) {
+                                return Center(
+                                    child: kIsWeb
+                                        ? Image.network(
+                                            galleryImages[index].path)
+                                        : Image.file(galleryImages[index]));
+                              },
+                            ),
+                    ),
                   ],
                 ),
               ),
