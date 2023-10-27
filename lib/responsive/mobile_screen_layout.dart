@@ -49,8 +49,8 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: const [
-          HomePage(),
           SearchScreen(),
+          HomePage(),
           BookmarkScreen(),
           ProfileScreen()
         ],

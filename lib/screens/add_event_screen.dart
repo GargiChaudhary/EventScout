@@ -31,6 +31,25 @@ class _AddEventScreenState extends State<AddEventScreen> {
   bool _isLoading = false;
   final ImagePicker picker = ImagePicker();
 
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(
+        imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
+
+    setState(
+      () {
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            galleryImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
+
   _selectImage(BuildContext context) async {
     return showDialog(
         context: context,
@@ -348,19 +367,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             fontSize: 13),
                       ),
                       onPressed: () {
-                        // getImages();
+                        getImages();
                       },
                     ),
-                    SizedBox(
-                      width: 300.0,
+                    Container(
+                      // width: 300.0,
+                      height: 300,
                       child: galleryImages.isEmpty
                           ? const Center(
                               child: Text('Sorry nothing selected!!'))
-                          : GridView.builder(
+                          : ListView.builder(
+                              scrollDirection: Axis.horizontal,
                               itemCount: galleryImages.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
                               itemBuilder: (BuildContext context, int index) {
                                 return Center(
                                     child: kIsWeb

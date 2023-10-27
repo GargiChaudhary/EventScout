@@ -15,6 +15,7 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
       highlightColor: Colors.white,
+      shadowColor: Colors.grey.shade600,
       focusColor: darkcolor4,
       hintColor: Colors.white,
       fontFamily: 'Montserrat',
