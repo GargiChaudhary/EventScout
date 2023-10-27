@@ -106,18 +106,17 @@ class LandingScreen extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 119, 65)),
-                      child: const Text(
+                          backgroundColor: Theme.of(context).primaryColor),
+                      child: Text(
                         "Register",
                         style: TextStyle(
                             fontFamily: 'Montserrat',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700),
+                            color: Theme.of(context).hintColor,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      width: 15,
                     ),
                     ElevatedButton(
                       onPressed: () {
@@ -127,17 +126,17 @@ class LandingScreen extends StatelessWidget {
                                 builder: (context) => const LoginScreen()));
                       },
                       style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          backgroundColor:
-                              const Color.fromARGB(255, 255, 119, 65)),
-                      child: const Text(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
+                      child: Text(
                         "Log in",
                         style: TextStyle(
                             fontFamily: 'Montserrat',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700),
+                            color: Theme.of(context).hintColor,
+                            fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],

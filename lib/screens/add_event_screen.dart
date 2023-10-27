@@ -3,10 +3,10 @@ import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
-import 'package:events/widgets/text_field_input.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -190,206 +190,345 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     fontFamily: 'Montserrat'),
               ),
               leading: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    clearImage();
+                  },
                   icon: Icon(
                     Icons.arrow_back_ios,
                     color: Theme.of(context).hintColor,
                   )),
               actions: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                        // onPressed: () => postEvent(ourUser.uid, ourUser.username,
-                        //     ourUser.photoUrl, ourUser.bio),
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.check,
-                          color: Theme.of(context).hintColor,
-                        )),
-                    Text(
-                      'Post',
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'Montserrat'),
-                    )
-                  ],
-                ),
+                TextButton(
+                  onPressed: () => postEvent(
+                      user.uid, user.username, user.photoUrl, user.bio),
+                  child: Text(
+                    'Done',
+                    style: TextStyle(
+                        color: Theme.of(context).hintColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Montserrat'),
+                  ),
+                )
               ],
             ),
             body: SafeArea(
               child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _isLoading
-                        ? const LinearProgressIndicator()
-                        : const Padding(padding: EdgeInsets.only(top: 0)),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+                child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
                       children: [
-                        const SizedBox(
-                          width: 10,
+                        _isLoading
+                            ? const LinearProgressIndicator()
+                            : const Padding(padding: EdgeInsets.only(top: 0)),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            CircleAvatar(
+                              radius: 20,
+                              backgroundImage: NetworkImage(user
+                                  .photoUrl), // it is the error causing line
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.width * 0.7,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  image: DecorationImage(
+                                      fit: BoxFit.fill,
+                                      image: MemoryImage(_file!))),
+                            ),
+                          ],
                         ),
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(
-                              user.photoUrl), // it is the error causing line
-                        ),
                         const SizedBox(
-                          width: 10,
+                          height: 15,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.width * 0.7,
-                          width: MediaQuery.of(context).size.width * 0.7,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: MemoryImage(_file!))),
+                                  const BorderRadius.all(Radius.circular(6)),
+                              color: Theme.of(context).primaryColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .shadowColor
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                )
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  controller: _titleController,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Theme.of(context).hintColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16),
+                                  decoration: InputDecoration(
+                                    hintText: "Event title",
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).hintColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16),
+                                    contentPadding: const EdgeInsets.all(8),
+                                  ),
+                                ),
+                                TextField(
+                                  controller: _punchLineController,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Theme.of(context).hintColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13),
+                                  decoration: InputDecoration(
+                                    hintText: "Event subtitle",
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).hintColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13),
+                                    contentPadding: const EdgeInsets.all(8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(6)),
+                              color: Theme.of(context).primaryColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .shadowColor
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                )
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: TextField(
+                              controller: _descriptionController,
+                              maxLines: 6,
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Theme.of(context).hintColor,
+                                  fontSize: 13),
+                              decoration: InputDecoration(
+                                hintText: "Event description",
+                                hintStyle: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: Theme.of(context).hintColor,
+                                    fontSize: 13),
+                                contentPadding: const EdgeInsets.all(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(6)),
+                              color: Theme.of(context).primaryColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .shadowColor
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                )
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: Column(
+                              children: [
+                                TextField(
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Theme.of(context).hintColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13),
+                                  controller: _durationController,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(8),
+                                    hintText: "Date",
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).hintColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13),
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(
+                                        Icons.calendar_today,
+                                        size: 20,
+                                      ),
+                                      onPressed: () {
+                                        showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2023),
+                                          lastDate: DateTime(2101),
+                                        ).then((pickedDate) {
+                                          if (pickedDate != null) {
+                                            String formattedDate =
+                                                DateFormat('yyyy-MM-dd')
+                                                    .format(pickedDate);
+                                            setState(() {
+                                              _durationController.text =
+                                                  formattedDate;
+                                            });
+                                          }
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                DropdownMenu<int>(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    label: Text(
+                                      'Select category',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Theme.of(context).hintColor,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13),
+                                    ),
+                                    onSelected: (int? newValue) {
+                                      setState(() {
+                                        categoryId = newValue ?? 0;
+                                        if (categoryId != null) {
+                                          categoryIds.clear();
+                                          categoryIds.add(categoryId);
+                                          categoryIds.add(0);
+                                        }
+                                      });
+                                    },
+                                    inputDecorationTheme:
+                                        const InputDecorationTheme(
+                                            contentPadding: EdgeInsets.all(8)),
+                                    dropdownMenuEntries: const <DropdownMenuEntry<
+                                        int>>[
+                                      DropdownMenuEntry(
+                                          value: 1, label: 'Music'),
+                                      DropdownMenuEntry(
+                                          value: 2, label: 'Sports'),
+                                      DropdownMenuEntry(
+                                          value: 3, label: 'Education'),
+                                      DropdownMenuEntry(
+                                          value: 4, label: 'Political'),
+                                      DropdownMenuEntry(
+                                          value: 5, label: 'Others'),
+                                    ]),
+                                TextField(
+                                  controller: _locationController,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      color: Theme.of(context).hintColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13),
+                                  decoration: InputDecoration(
+                                    hintText: "Location",
+                                    hintStyle: TextStyle(
+                                        fontFamily: 'Montserrat',
+                                        color: Theme.of(context).hintColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13),
+                                    contentPadding: const EdgeInsets.all(8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          height: 200,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(6)),
+                              color: Theme.of(context).primaryColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .shadowColor
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 5),
+                                )
+                              ]),
+                          child: galleryImages.isEmpty
+                              ? Center(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        // elevation: 5,
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor),
+                                    child: Text(
+                                      'Select images',
+                                      style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          color: Theme.of(context).hintColor,
+                                          fontSize: 13),
+                                    ),
+                                    onPressed: () {
+                                      getImages();
+                                    },
+                                  ),
+                                )
+                              : ListView.builder(
+                                  padding: const EdgeInsets.all(4),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: galleryImages.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Center(
+                                        child: kIsWeb
+                                            ? SizedBox(
+                                                width: 180,
+                                                height: 180,
+                                                child: Image.network(
+                                                    galleryImages[index].path),
+                                              )
+                                            : SizedBox(
+                                                height: 180,
+                                                width: 180,
+                                                child: Image.file(
+                                                    galleryImages[index])));
+                                  },
+                                ),
+                        )
                       ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFieldInput(
-                        textEditingController: _titleController,
-                        hintText: "Event Title",
-                        textInputType: TextInputType.text),
-                    TextFieldInput(
-                        textEditingController: _punchLineController,
-                        hintText: "Event Subtitle",
-                        textInputType: TextInputType.text),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 50.0, vertical: 6),
-                      child: DropdownMenu<int>(
-                          width: MediaQuery.of(context).size.width * 0.75,
-                          label: Text(
-                            'Event type',
-                            style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                color: Theme.of(context).hintColor,
-                                fontSize: 13),
-                          ),
-                          onSelected: (int? newValue) {
-                            setState(() {
-                              categoryId = newValue ??
-                                  0; // Use null-aware operator to handle null case
-                              if (categoryId != null) {
-                                categoryIds.clear();
-                                categoryIds.add(categoryId);
-                                categoryIds.add(0);
-                              }
-                              // print("Category id is : ${categoryId}");
-                              // print("Category id list : ${categoryIds}");
-                            });
-                          },
-                          inputDecorationTheme: InputDecorationTheme(
-                            filled: true,
-                            fillColor: Theme.of(context).primaryColor,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 5.0),
-                          ),
-                          dropdownMenuEntries: const <DropdownMenuEntry<int>>[
-                            DropdownMenuEntry(value: 1, label: 'Music'),
-                            DropdownMenuEntry(value: 2, label: 'Sports'),
-                            DropdownMenuEntry(value: 3, label: 'Education'),
-                            DropdownMenuEntry(value: 4, label: 'Political'),
-                            DropdownMenuEntry(value: 5, label: 'Others'),
-                          ]),
-                    ),
-                    TextFieldInput(
-                        textEditingController: _locationController,
-                        hintText: "Event location",
-                        textInputType: TextInputType.text),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 50.0, vertical: 6),
-                      child: TextField(
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Theme.of(context).hintColor,
-                            fontSize: 13),
-                        controller: _durationController,
-                        decoration: InputDecoration(
-                          fillColor: Theme.of(context).primaryColor,
-                          filled: true,
-                          hintText: "Event date",
-                          hintStyle: TextStyle(
-                              fontFamily: 'Montserrat',
-                              color: Theme.of(context).hintColor,
-                              fontSize: 13),
-                          suffixIcon: IconButton(
-                            icon: const Icon(
-                              Icons.calendar_today,
-                              size: 20,
-                            ),
-                            onPressed: () {
-                              showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2023),
-                                lastDate: DateTime(2101),
-                              ).then((pickedDate) {
-                                if (pickedDate != null) {
-                                  setState(() {
-                                    _durationController.text =
-                                        pickedDate.toString();
-                                  });
-                                }
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    TextFieldInput(
-                        textEditingController: _descriptionController,
-                        hintText: "Event Description...",
-                        maxLines: 8,
-                        textInputType: TextInputType.text),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).primaryColor)),
-                      child: Text(
-                        'Select mages',
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: Theme.of(context).hintColor,
-                            fontSize: 13),
-                      ),
-                      onPressed: () {
-                        getImages();
-                      },
-                    ),
-                    Container(
-                      // width: 300.0,
-                      height: 300,
-                      child: galleryImages.isEmpty
-                          ? const Center(
-                              child: Text('Sorry nothing selected!!'))
-                          : ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: galleryImages.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Center(
-                                    child: kIsWeb
-                                        ? Image.network(
-                                            galleryImages[index].path)
-                                        : Image.file(galleryImages[index]));
-                              },
-                            ),
-                    ),
-                  ],
-                ),
+                    )),
               ),
             ),
           );

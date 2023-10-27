@@ -150,7 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           "Not a member?",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 11,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black),
                         ),
                         GestureDetector(
@@ -162,9 +163,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             "Register now",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 11,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 0, 106, 192)),
+                                color: Colors.brown),
                           ),
                         )
                       ],

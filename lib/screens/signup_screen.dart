@@ -191,7 +191,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           "Already have an account?",
                           style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 11,
+                              fontSize: 12,
                               color: Colors.black),
                         ),
                         GestureDetector(
@@ -203,9 +203,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             "Log in",
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                fontSize: 11,
+                                fontSize: 12,
                                 fontWeight: FontWeight.w600,
-                                color: Color.fromARGB(255, 0, 106, 192)),
+                                color: Colors.brown),
                           ),
                         )
                       ],
