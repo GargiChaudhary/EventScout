@@ -1,3 +1,4 @@
+import 'package:events/resources/auth_methods.dart';
 import 'package:events/utils/colors.dart';
 import 'package:events/widgets/profile_bg.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +21,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'https://i.pinimg.com/236x/dd/97/3a/dd973ac116a977c8dd5296b0da504b8c.jpg',
             screenHeight: MediaQuery.of(context).size.height,
           ),
-          const SafeArea(
+          SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
-                  Center(
+                  const Center(
                     child: CircleAvatar(
                       backgroundColor: primaryColor,
                       radius: 58,
@@ -37,6 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'https://i.pinimg.com/236x/dd/97/3a/dd973ac116a977c8dd5296b0da504b8c.jpg')),
                     ),
                   ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                      onPressed: () => AuthMethods().signOut(),
+                      child: const Text("Sign out"))
                 ],
               ),
             ),

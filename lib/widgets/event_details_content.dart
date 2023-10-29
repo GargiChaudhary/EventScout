@@ -164,27 +164,27 @@ class EventDetailsContent extends StatelessWidget {
                     fontWeight: FontWeight.w600),
               ),
             ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: <Widget>[
-                for (final galleryImagePath in event.galleryImages)
-                  Container(
-                    margin:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 32),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        galleryImagePath,
-                        width: 180,
-                        height: 180,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-              ],
-            ),
-          ),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: <Widget>[
+          //       for (final galleryImagePath in event.galleryImages)
+          //         Container(
+          //           margin:
+          //               const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+          //           child: ClipRRect(
+          //             borderRadius: const BorderRadius.all(Radius.circular(20)),
+          //             child: Image.asset(
+          //               galleryImagePath,
+          //               width: 180,
+          //               height: 180,
+          //               fit: BoxFit.cover,
+          //             ),
+          //           ),
+          //         )
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

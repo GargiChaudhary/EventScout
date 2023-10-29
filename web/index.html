@@ -40,6 +40,9 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
+  <script type="text/javascript">
+    window.flutterWebRenderer = "html";
+</script>
   <script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
@@ -52,6 +55,14 @@
             appRunner.runApp();
           });
         }
+        // onEntrypointLoaded: async function (engineInitializer) {
+        //   let appRunner = await engineInitializer.initializeEngine({
+        //     hostElement: document.querySelector("#flutter_app"),
+        //     renderer: "html"
+        //   }).then(function (appRunner) {
+        //     return appRunner.runApp();
+        //   });
+        // }
       });
     });
   </script>

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
@@ -13,7 +14,8 @@ class Event {
       eventUrl,
       profImage;
   final datePublished;
-  final List categoryIds, galleryImages;
+  final List categoryIds;
+  final List<File> galleryImages;
 
   Event(
       {required this.title,
@@ -58,7 +60,7 @@ class Event {
       punchLine: snapshot['punchLine'],
       categoryIds: snapshot['categoryIds'],
       galleryImages: snapshot['galleryImages'],
-      uid: snapshot['categoryIds'],
+      uid: snapshot['uid'],
       username: snapshot['username'],
       eventUrl: snapshot['eventUrl'],
       eventId: snapshot['eventId'],

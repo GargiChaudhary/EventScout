@@ -1,8 +1,9 @@
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events/model/event.dart';
 import 'package:events/resources/storage_methods.dart';
+import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
@@ -20,7 +21,7 @@ class FirestoreMethods {
       String duration,
       String punchLine,
       List categoryIds,
-      List galleryImages) async {
+      List<File> galleryImages) async {
     String res = "some error occured";
     try {
       String photoUrl =
