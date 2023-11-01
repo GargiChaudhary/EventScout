@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,27 +27,66 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _punchLineController = TextEditingController();
   final List categoryIds = [];
 
-  List<File> galleryImages = [];
+  List<String> galleryImages = [];
   bool _isLoading = false;
   final ImagePicker picker = ImagePicker();
+  //##########  FILE wala code ##########
+  // Future getImages() async {
+  //   final pickedFile = await picker.pickMultiImage(
+  //       imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+  //   List<XFile> xfilePick = pickedFile;
+  //   setState(
+  //     () {
+  //       if (xfilePick.isNotEmpty) {
+  //         for (var i = 0; i < xfilePick.length; i++) {
+  //           galleryImages.add(File(xfilePick[i].path));
+  //         }
+  //       } else {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //             const SnackBar(content: Text('Nothing is selected')));
+  //       }
+  //     },
+  //   );
+  // }
+
+  // #### uint8list wala #######
+  // Future<void> getImages() async {
+  //   List<XFile> images = await ImagePicker().pickMultiImage();
+  //   if (images != null) {
+  //     List<Uint8List> newImages = await Future.wait(
+  //       images.map((image) async {
+  //         final bytes = await image.readAsBytes();
+  //         return Uint8List.fromList(bytes);
+  //       }),
+  //     );
+  //     setState(() {
+  //       galleryImages.addAll(newImages);
+  //     });
+  //   }
+  // }
 
   Future getImages() async {
-    final pickedFile = await picker.pickMultiImage(
+    final pickedFiles = await picker.pickMultiImage(
         imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
-    List<XFile> xfilePick = pickedFile;
 
-    setState(
-      () {
-        if (xfilePick.isNotEmpty) {
-          for (var i = 0; i < xfilePick.length; i++) {
-            galleryImages.add(File(xfilePick[i].path));
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Nothing is selected')));
+    setState(() async {
+      if (pickedFiles.isNotEmpty) {
+        for (var i = 0; i < pickedFiles.length; i++) {
+          final pickedFile = pickedFiles[i];
+          final Uint8List imageBytes = await pickedFile.readAsBytes();
+          final Reference storageRef = FirebaseStorage.instance
+              .ref()
+              .child('events/$eventId/image$i.jpg');
+          await storageRef.putData(imageBytes);
+          final imageUrl = await storageRef.getDownloadURL();
+          galleryImages.add(imageUrl);
         }
-      },
-    );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Nothing is selected')),
+        );
+      }
+    });
   }
 
   _selectImage(BuildContext context) async {
@@ -517,12 +556,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                 width: 180,
                                                 height: 180,
                                                 child: Image.network(
-                                                    galleryImages[index].path),
+                                                    galleryImages[index]),
                                               )
                                             : SizedBox(
                                                 height: 180,
                                                 width: 180,
-                                                child: Image.file(
+                                                child: Image.network(
                                                     galleryImages[index])));
                                   },
                                 ),

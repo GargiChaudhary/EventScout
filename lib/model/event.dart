@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
@@ -15,7 +14,7 @@ class Event {
       profImage;
   final datePublished;
   final List categoryIds;
-  final List<File> galleryImages;
+  final List<String> galleryImages;
 
   Event(
       {required this.title,
