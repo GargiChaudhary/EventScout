@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events/model/event.dart';
 import 'package:events/resources/storage_methods.dart';
 import 'package:flutter/foundation.dart';
-import 'package:uuid/uuid.dart';
 
 class FirestoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,6 +19,7 @@ class FirestoreMethods {
       String location,
       String duration,
       String punchLine,
+      String eventId,
       List categoryIds,
       List<String> galleryImages) async {
     String res = "some error occured";
@@ -27,7 +27,7 @@ class FirestoreMethods {
       String photoUrl =
           await StorageMethods().uploadImageToStorage('events', file, true);
       print("THE PHOTOURL IS::::::: $photoUrl :::::: END");
-      String eventId = const Uuid().v1();
+      // String eventId = const Uuid().v1();
       print("THE EVENTID IS::::::: $eventId :::::: END");
       print("THE title IS::::::: $title :::::: END");
       print("THE uid IS::::::: $uid :::::: END");

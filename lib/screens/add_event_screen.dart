@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class AddEventScreen extends StatefulWidget {
   const AddEventScreen({super.key});
@@ -30,6 +31,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   List<String> galleryImages = [];
   bool _isLoading = false;
   final ImagePicker picker = ImagePicker();
+  String eventId = const Uuid().v1();
+
   //##########  FILE wala code ##########
   // Future getImages() async {
   //   final pickedFile = await picker.pickMultiImage(
@@ -68,7 +71,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Future getImages() async {
     final pickedFiles = await picker.pickMultiImage(
         imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
-
     setState(() async {
       if (pickedFiles.isNotEmpty) {
         for (var i = 0; i < pickedFiles.length; i++) {
@@ -147,6 +149,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           _locationController.text,
           _durationController.text,
           _punchLineController.text,
+          eventId,
           categoryIds,
           galleryImages);
       if (res == "success") {
