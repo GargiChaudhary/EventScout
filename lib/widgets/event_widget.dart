@@ -10,7 +10,7 @@ class EventWidget extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 15),
       elevation: 4,
-      color: Theme.of(context).primaryColor,
+      color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       child: Padding(
@@ -20,7 +20,7 @@ class EventWidget extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
-              child: Image.asset(
+              child: Image.network(
                 event.eventUrl,
                 height: 150,
                 fit: BoxFit.fitWidth,

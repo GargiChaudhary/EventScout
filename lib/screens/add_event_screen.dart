@@ -26,7 +26,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _punchLineController = TextEditingController();
-  final List categoryIds = [];
+  List<int> categoryIds = [];
 
   List<String> galleryImages = [];
   bool _isLoading = false;
@@ -68,27 +68,50 @@ class _AddEventScreenState extends State<AddEventScreen> {
   //   }
   // }
 
+  // async setstate
+  // Future getImages() async {
+  //   final pickedFiles = await picker.pickMultiImage(
+  //       imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+  //   setState(() async {
+  //     if (pickedFiles.isNotEmpty) {
+  //       for (var i = 0; i < pickedFiles.length; i++) {
+  //         final pickedFile = pickedFiles[i];
+  //         final Uint8List imageBytes = await pickedFile.readAsBytes();
+  //         final Reference storageRef = FirebaseStorage.instance
+  //             .ref()
+  //             .child('events/$eventId/image$i.jpg');
+  //         await storageRef.putData(imageBytes);
+  //         final imageUrl = await storageRef.getDownloadURL();
+  //         galleryImages.add(imageUrl);
+  //       }
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Nothing is selected')),
+  //       );
+  //     }
+  //   });
+  // }
+
   Future getImages() async {
     final pickedFiles = await picker.pickMultiImage(
         imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
-    setState(() async {
-      if (pickedFiles.isNotEmpty) {
-        for (var i = 0; i < pickedFiles.length; i++) {
-          final pickedFile = pickedFiles[i];
-          final Uint8List imageBytes = await pickedFile.readAsBytes();
-          final Reference storageRef = FirebaseStorage.instance
-              .ref()
-              .child('events/$eventId/image$i.jpg');
-          await storageRef.putData(imageBytes);
-          final imageUrl = await storageRef.getDownloadURL();
+    if (pickedFiles.isNotEmpty) {
+      for (var i = 0; i < pickedFiles.length; i++) {
+        final pickedFile = pickedFiles[i];
+        final Uint8List imageBytes = await pickedFile.readAsBytes();
+        final Reference storageRef =
+            FirebaseStorage.instance.ref().child('events/$eventId/image$i.jpg');
+        await storageRef.putData(imageBytes);
+        final imageUrl = await storageRef.getDownloadURL();
+        setState(() {
           galleryImages.add(imageUrl);
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Nothing is selected')),
-        );
+        });
       }
-    });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nothing is selected')),
+      );
+    }
   }
 
   _selectImage(BuildContext context) async {
@@ -466,10 +489,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         categoryId = newValue ?? 0;
                                         if (categoryId != null) {
                                           categoryIds.clear();
-                                          categoryIds.add(categoryId);
+                                          categoryIds.add(categoryId!);
                                           categoryIds.add(0);
                                         }
                                       });
+                                      // List<int> genreIds;
+                                      // genreIds = jsonMap["genre_ids"].cast<int>();
                                     },
                                     inputDecorationTheme:
                                         const InputDecorationTheme(
@@ -479,13 +504,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       DropdownMenuEntry(
                                           value: 1, label: 'Music'),
                                       DropdownMenuEntry(
-                                          value: 2, label: 'Sports'),
+                                          value: 2, label: 'Festival'),
                                       DropdownMenuEntry(
                                           value: 3, label: 'Education'),
                                       DropdownMenuEntry(
                                           value: 4, label: 'Political'),
                                       DropdownMenuEntry(
-                                          value: 5, label: 'Others'),
+                                          value: 5, label: 'Sports'),
+                                      DropdownMenuEntry(
+                                          value: 6, label: 'Meetup'),
+                                      DropdownMenuEntry(
+                                          value: 7, label: 'Birthday'),
+                                      DropdownMenuEntry(
+                                          value: 8, label: 'Others'),
                                     ]),
                                 TextField(
                                   controller: _locationController,

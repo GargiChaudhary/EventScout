@@ -13,7 +13,7 @@ class Event {
       eventUrl,
       profImage;
   final datePublished;
-  final List categoryIds;
+  final List<int> categoryIds;
   final List<String> galleryImages;
 
   Event(
@@ -57,8 +57,8 @@ class Event {
       location: snapshot['location'],
       duration: snapshot['duration'],
       punchLine: snapshot['punchLine'],
-      categoryIds: snapshot['categoryIds'],
-      galleryImages: snapshot['galleryImages'],
+      categoryIds: snapshot['categoryIds'].cast<int>(),
+      galleryImages: snapshot['galleryImages'].cast<String>(),
       uid: snapshot['uid'],
       username: snapshot['username'],
       eventUrl: snapshot['eventUrl'],
@@ -71,6 +71,7 @@ class Event {
 }
 
 Future<List<Event>?> fetchAllEvents() async {
+  print("### Inside the fetchAllEvents function ###");
   List<Event> events = [];
   try {
     QuerySnapshot eventQuery =
@@ -82,7 +83,10 @@ Future<List<Event>?> fetchAllEvents() async {
   } catch (e) {
     print("Error fetching events: $e");
   }
+  print("### events in fetchAllEvents function: $events ###");
   return events;
+  // List<int> genreIds;
+  // genreIds = jsonMap["genre_ids"].cast<int>();
 }
 
 // final fiveKmRunEvent = Event(

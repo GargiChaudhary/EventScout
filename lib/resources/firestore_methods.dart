@@ -20,7 +20,7 @@ class FirestoreMethods {
       String duration,
       String punchLine,
       String eventId,
-      List categoryIds,
+      List<int> categoryIds,
       List<String> galleryImages) async {
     String res = "some error occured";
     try {

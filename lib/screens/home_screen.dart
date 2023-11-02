@@ -23,12 +23,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     fetchAllEvents().then((events) {
+      print("### Called the fetchAllEvents function ###");
       if (events != null) {
         setState(() {
           allEvents = events;
         });
       }
     });
+    print(
+        "### allEvents after calling the fetchAllEvents function: $allEvents ###");
   }
 
   @override
@@ -86,6 +89,7 @@ class _HomePageState extends State<HomePage> {
                     child: Consumer<AppState>(
                       builder: (context, appState, _) => Column(
                         children: <Widget>[
+                          // for (final event in allEvents)
                           for (final event in allEvents.where((e) => e
                               .categoryIds
                               .contains(appState.selectedCategoryId)))
