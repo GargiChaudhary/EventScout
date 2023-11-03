@@ -4,6 +4,7 @@ import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EventWidget extends StatefulWidget {
@@ -12,6 +13,26 @@ class EventWidget extends StatefulWidget {
 
   @override
   State<EventWidget> createState() => _EventWidgetState();
+}
+
+String calculateTimeLeft(DateTime eventDate) {
+  final currentDate = DateTime.now();
+  final difference = eventDate.difference(currentDate);
+
+  if (difference.isNegative) {
+    return "Expired";
+  } else if (difference.inDays == 0) {
+    return "Today";
+  } else if (difference.inDays <= 30) {
+    return "${difference.inDays} days left";
+  } else {
+    final monthsLeft = difference.inDays ~/ 30;
+    // final daysLeft = difference.inDays % 30;
+
+    return monthsLeft == 1
+        ? "$monthsLeft month left"
+        : "$monthsLeft months left";
+  }
 }
 
 class _EventWidgetState extends State<EventWidget> {
@@ -28,6 +49,7 @@ class _EventWidgetState extends State<EventWidget> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime eventDate = DateFormat('yyyy-MM-dd').parse(widget.event.duration);
     // return Card(
     //   margin: const EdgeInsets.symmetric(vertical: 15),
     //   elevation: 4,
@@ -135,42 +157,80 @@ class _EventWidgetState extends State<EventWidget> {
               padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12)
                   .copyWith(right: 0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   //header section
-                  CircleAvatar(
-                    radius: 23,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(widget.event.profImage),
-                      radius: 20,
-                    ),
-                  ),
 
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  // CircleAvatar(
+                  //   radius: 23,
+                  //   backgroundColor: Theme.of(context).primaryColor,
+                  //   child: CircleAvatar(
+                  //     backgroundImage: NetworkImage(widget.event.profImage),
+                  //     radius: 20,
+                  //   ),
+                  // ),
+
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(left: 8),
+                  //     child: Column(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           capitalizeAllWord(widget.event.username),
+                  //           style: const TextStyle(
+                  //               fontWeight: FontWeight.w500,
+                  //               fontFamily: 'Montserrat',
+                  //               fontSize: 15),
+                  //         ),
+                  //         Text(
+                  //           widget.event.bio,
+                  //           style: const TextStyle(
+                  //               fontFamily: 'Montserrat',
+                  //               fontSize: 11,
+                  //               fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        capitalizeAllWord(widget.event.title),
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).hintColor),
+                      ),
+                      Row(
                         children: [
+                          const Icon(
+                            Icons.location_on,
+                            size: 15,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
                           Text(
-                            capitalizeAllWord(widget.event.username),
-                            style: const TextStyle(
+                            capitalizeAllWord(widget.event.location),
+                            style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Montserrat',
-                                fontSize: 15),
-                          ),
-                          Text(
-                            widget.event.bio,
-                            style: const TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 11,
-                                fontWeight: FontWeight.w500),
-                          ),
+                                fontSize: 13,
+                                color: Theme.of(context).hintColor),
+                            // softWrap: true,
+                          )
                         ],
-                      ),
-                    ),
+                      )
+                    ],
                   ),
+
                   widget.event.uid == user.uid
                       ? IconButton(
                           onPressed: () {
@@ -237,32 +297,36 @@ class _EventWidgetState extends State<EventWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.event.title,
+                          'Posted By:',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: Theme.of(context).hintColor),
                         ),
                         Row(
                           children: [
-                            const Icon(
-                              Icons.location_on,
-                              size: 15,
-                              color: Colors.red,
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              child: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(widget.event.profImage),
+                                radius: 15,
+                              ),
                             ),
                             const SizedBox(
                               width: 5,
                             ),
                             Flexible(
                               child: Text(
-                                widget.event.location,
+                                capitalizeAllWord(
+                                    '${widget.event.username} (${widget.event.bio})'),
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontFamily: 'Montserrat',
                                     fontSize: 13,
                                     color: Theme.of(context).hintColor),
-                                // overflow: TextOverflow.ellipsis,
                                 softWrap: true,
                               ),
                             )
@@ -272,7 +336,6 @@ class _EventWidgetState extends State<EventWidget> {
                     ),
                   ),
                   Column(
-                    // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         padding: const EdgeInsets.all(4),
@@ -318,7 +381,7 @@ class _EventWidgetState extends State<EventWidget> {
                               width: 5,
                             ),
                             Text(
-                              '7 days left',
+                              calculateTimeLeft(eventDate),
                               style: TextStyle(
                                   fontFamily: 'Montserrat',
                                   fontSize: 13,

@@ -4,7 +4,6 @@ class Event {
   final String title,
       description,
       location,
-      duration,
       punchLine,
       uid,
       username,
@@ -12,6 +11,7 @@ class Event {
       eventId,
       eventUrl,
       profImage;
+  final duration;
   final datePublished;
   final List<int> categoryIds;
   final List<String> galleryImages;
