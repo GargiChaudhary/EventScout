@@ -4,7 +4,6 @@ import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
 import 'package:events/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EventWidget extends StatefulWidget {
@@ -114,7 +113,6 @@ class _EventWidgetState extends State<EventWidget> {
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
-        // color: mobileBackgroundColor,
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
             boxShadow: [
@@ -130,11 +128,11 @@ class _EventWidgetState extends State<EventWidget> {
               width: 2,
             ),
             borderRadius: BorderRadius.circular(15)),
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        // padding: const EdgeInsets.all(10),
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16)
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12)
                   .copyWith(right: 0),
               child: Row(
                 children: [
@@ -167,7 +165,7 @@ class _EventWidgetState extends State<EventWidget> {
                             style: const TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 11,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w500),
                           ),
                         ],
                       ),
@@ -214,68 +212,123 @@ class _EventWidgetState extends State<EventWidget> {
             ),
 
             //image section
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.35,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              height: MediaQuery.of(context).size.height * 0.28,
               width: double.infinity,
-              child: Image.network(
-                widget.event.eventUrl,
-                fit: BoxFit.cover,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  widget.event.eventUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
 
-            //description and number of comments
+            //row of loaction and date etc
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DefaultTextStyle(
-                    style: const TextStyle(fontFamily: 'Montserrat'),
-                    child: Text(
-                      'some likes and some comments',
-                      // style: Theme.of(context).textTheme.bodyText2,
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: Theme.of(context).hintColor,
-                          fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 8),
-                    child: RichText(
-                      text: TextSpan(
-                          style: TextStyle(color: Theme.of(context).hintColor),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.event.title,
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).hintColor),
+                        ),
+                        Row(
                           children: [
-                            TextSpan(
-                                text: capitalizeAllWord("username"),
+                            const Icon(
+                              Icons.location_on,
+                              size: 15,
+                              color: Colors.red,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Flexible(
+                              child: Text(
+                                widget.event.location,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w500,
                                     fontFamily: 'Montserrat',
-                                    fontSize: 14,
-                                    color: Theme.of(context).hintColor)),
-                            TextSpan(
-                                text: 'some description',
-                                style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 12,
-                                    color: Theme.of(context).hintColor,
-                                    fontWeight: FontWeight.w300))
-                          ]),
+                                    fontSize: 13,
+                                    color: Theme.of(context).hintColor),
+                                // overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Text(
-                      DateFormat.yMMMd()
-                          .format(widget.event.datePublished.toDate()),
-                      style: TextStyle(
-                          fontSize: 11,
-                          color: Theme.of(context).hintColor,
-                          fontFamily: 'Montserrat'),
-                    ),
-                  ),
+                  Column(
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.calendar_month,
+                              size: 14,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              widget.event.duration,
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Theme.of(context).hintColor),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.access_time,
+                              size: 14,
+                              color: Theme.of(context).hintColor,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '7 days left',
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Theme.of(context).hintColor),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             )

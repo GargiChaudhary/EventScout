@@ -293,8 +293,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                             ),
                             CircleAvatar(
                               radius: 20,
-                              backgroundImage: NetworkImage(user
-                                  .photoUrl), // it is the error causing line
+                              backgroundImage: NetworkImage(user.photoUrl),
                             ),
                             const SizedBox(
                               width: 10,

@@ -70,24 +70,22 @@ class Event {
   }
 }
 
-Future<List<Event>?> fetchAllEvents() async {
-  print("### Inside the fetchAllEvents function ###");
-  List<Event> events = [];
-  try {
-    QuerySnapshot eventQuery =
-        await FirebaseFirestore.instance.collection('events').get();
-    eventQuery.docs.forEach((eventDoc) {
-      Event event = Event.fromSnap(eventDoc);
-      events.add(event);
-    });
-  } catch (e) {
-    print("Error fetching events: $e");
-  }
-  print("### events in fetchAllEvents function: $events ###");
-  return events;
-  // List<int> genreIds;
-  // genreIds = jsonMap["genre_ids"].cast<int>();
-}
+// Future<List<Event>?> fetchAllEvents() async {
+//   print("### Inside the fetchAllEvents function ###");
+//   List<Event> events = [];
+//   try {
+//     QuerySnapshot eventQuery =
+//         await FirebaseFirestore.instance.collection('events').get();
+//     eventQuery.docs.forEach((eventDoc) {
+//       Event event = Event.fromSnap(eventDoc);
+//       events.add(event);
+//     });
+//   } catch (e) {
+//     print("Error fetching events: $e");
+//   }
+//   print("### events in fetchAllEvents function: $events ###");
+//   return events;
+// }
 
 // final fiveKmRunEvent = Event(
 //     imagePath: "assets/event_images/5_km_downtown_run.jpeg",
