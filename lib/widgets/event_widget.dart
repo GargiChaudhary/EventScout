@@ -337,32 +337,27 @@ class _EventWidgetState extends State<EventWidget> {
                   ),
                   Column(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.calendar_month,
-                              size: 14,
-                              color: Theme.of(context).hintColor,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              widget.event.duration,
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 13,
-                                  color: Theme.of(context).hintColor),
-                            )
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_month,
+                            size: 14,
+                            color: Theme.of(context).hintColor,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            DateFormat.yMMMEd().format(
+                                DateTime.tryParse(widget.event.duration)!),
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 13,
+                                color: Theme.of(context).hintColor),
+                          )
+                        ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Container(
