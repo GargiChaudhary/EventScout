@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:events/model/event.dart';
 import 'package:events/resources/auth_methods.dart';
+import 'package:events/screens/event_details_page.dart';
+import 'package:events/screens/home_screen.dart';
 import 'package:events/utils/colors.dart';
+import 'package:events/utils/palette.dart';
 import 'package:events/utils/utils.dart';
 import 'package:events/widgets/profile_bg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -67,8 +71,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            FirebaseAuth.instance.currentUser!.uid == widget.uid
+                                ? IconButton(
+                                    onPressed: () => AuthMethods().signOut(),
+                                    icon: const Icon(
+                                      Icons.logout_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const SizedBox(
+                                    width: 5,
+                                  ),
+                          ],
+                        ),
+                        Text(
+                          capitalizeAllWord(userData['username']),
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 22,
+                              color: Palette.myPink.shade900,
+                              fontWeight: FontWeight.w600),
+                        ),
                         const SizedBox(
-                          height: 80,
+                          height: 8,
+                        ),
+                        Text(
+                          capitalizeAllWord(userData['bio']),
+                          style: const TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
                         ),
                         Center(
                           child: CircleAvatar(
@@ -84,32 +126,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        ElevatedButton(
-                            onPressed: () => AuthMethods().signOut(),
-                            child: const Text("Sign out")),
-                        Container(
-                          color: Theme.of(context).primaryColor,
-                          width: 300,
-                          height: 300,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.white10.withAlpha(80)),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white.withAlpha(100),
-                                  blurRadius: 10.0,
-                                  spreadRadius: 0.0,
+                        // const Divider(),
+                        FutureBuilder(
+                            future: FirebaseFirestore.instance
+                                .collection('events')
+                                .where('uid', isEqualTo: widget.uid)
+                                .get(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              return GridView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    (snapshot.data! as dynamic).docs.length,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 1.5,
+                                  childAspectRatio: 1,
                                 ),
-                              ],
-                              color: Colors.white.withOpacity(0.2),
-                            ),
-                            child: Center(
-                              child: Text("Hello"),
-                            ),
-                          ),
-                        )
+                                itemBuilder: (context, index) {
+                                  DocumentSnapshot snap =
+                                      (snapshot.data! as dynamic).docs[index];
+
+                                  return InkWell(
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EventDetailsPage(
+                                                    event: Event.fromSnap(
+                                                        snapshot.data!
+                                                            .docs[index])))),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        child: Image(
+                                          image: NetworkImage(snap['eventUrl']),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            })
                       ],
                     ),
                   ),

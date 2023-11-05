@@ -241,6 +241,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             )),
           )
         : Scaffold(
+            // backgroundColor: Palette.myPink.shade100,
             appBar: AppBar(
               toolbarHeight: 70,
               elevation: 5,
@@ -314,20 +315,38 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           height: 15,
                         ),
                         Container(
+                          // decoration: BoxDecoration(
+                          //     borderRadius:
+                          //         const BorderRadius.all(Radius.circular(6)),
+                          //     color: Theme.of(context).primaryColor,
+                          //     boxShadow: [
+                          //       BoxShadow(
+                          //         color: Theme.of(context)
+                          //             .shadowColor
+                          //             .withOpacity(0.5),
+                          //         spreadRadius: 1,
+                          //         blurRadius: 5,
+                          //         offset: const Offset(0, 5),
+                          //       )
+                          //     ]),
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .shadowColor
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 5),
-                                )
-                              ]),
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(80)),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(100),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.0,
+                              ),
+                            ],
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.2),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Column(
@@ -375,19 +394,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .shadowColor
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 5),
-                                )
-                              ]),
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(80)),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(100),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.0,
+                              ),
+                            ],
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.2),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: TextField(
@@ -413,19 +436,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .shadowColor
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 5),
-                                )
-                              ]),
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(80)),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(100),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.0,
+                              ),
+                            ],
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.2),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Column(
@@ -545,19 +572,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           padding: const EdgeInsets.all(6),
                           height: 200,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(6)),
-                              color: Theme.of(context).primaryColor,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .shadowColor
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 5),
-                                )
-                              ]),
+                            border: Border.all(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(80)),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context)
+                                    .primaryColor
+                                    .withAlpha(100),
+                                blurRadius: 10.0,
+                                spreadRadius: 0.0,
+                              ),
+                            ],
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.2),
+                          ),
                           child: galleryImages.isEmpty
                               ? Center(
                                   child: ElevatedButton(

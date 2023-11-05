@@ -15,10 +15,10 @@ class ProfilePageBackground extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(
-                  opacity: 0.1,
+                  opacity: 0.2,
                   image: NetworkImage(imageUrl),
                   fit: BoxFit.cover)),
-          height: screenHeight * 0.3,
+          height: screenHeight * 0.46,
         ),
       ),
     ]);
