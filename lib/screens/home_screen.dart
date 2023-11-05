@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      // backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
       body: Stack(
         children: [
           HomePageBackground(

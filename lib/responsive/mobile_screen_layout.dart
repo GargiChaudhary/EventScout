@@ -5,6 +5,7 @@ import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/profile_screen.dart';
 import 'package:events/screens/search_screen.dart';
 import 'package:events/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Badge;
 
 class MobileScreen extends StatefulWidget {
@@ -48,11 +49,13 @@ class _MobileScreenState extends State<MobileScreen> {
             const NeverScrollableScrollPhysics(), //you won't be able to slide through the tab pages
         controller: pageController,
         onPageChanged: onPageChanged,
-        children: const [
+        children: [
+          ProfileScreen(
+            uid: FirebaseAuth.instance.currentUser!.uid,
+          ),
           SearchScreen(),
-          HomePage(),
           BookmarkScreen(),
-          ProfileScreen()
+          HomePage(),
         ],
       ),
       floatingActionButton: FloatingActionButton(

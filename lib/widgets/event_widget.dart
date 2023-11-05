@@ -135,22 +135,33 @@ class _EventWidgetState extends State<EventWidget> {
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
+        // decoration: BoxDecoration(
+        //     color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: Theme.of(context).shadowColor.withOpacity(0.6),
+        //         spreadRadius: 1,
+        //         blurRadius: 5,
+        //         offset: const Offset(0, 5),
+        //       )
+        //     ],
+        //     border: Border.all(
+        //       color: Theme.of(context).shadowColor.withOpacity(0.5),
+        //       width: 2,
+        //     ),
+        //     borderRadius: BorderRadius.circular(15)),
         decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withOpacity(0.6),
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(0, 5),
-              )
-            ],
-            border: Border.all(
-              color: Theme.of(context).shadowColor.withOpacity(0.5),
-              width: 2,
+          border: Border.all(color: Theme.of(context).hintColor.withAlpha(80)),
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).focusColor.withAlpha(100),
+              blurRadius: 10.0,
+              spreadRadius: 0.0,
             ),
-            borderRadius: BorderRadius.circular(15)),
-        // padding: const EdgeInsets.all(10),
+          ],
+          color: Theme.of(context).focusColor.withOpacity(0.2),
+        ),
         child: Column(
           children: [
             Container(
@@ -159,43 +170,6 @@ class _EventWidgetState extends State<EventWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  //header section
-
-                  // CircleAvatar(
-                  //   radius: 23,
-                  //   backgroundColor: Theme.of(context).primaryColor,
-                  //   child: CircleAvatar(
-                  //     backgroundImage: NetworkImage(widget.event.profImage),
-                  //     radius: 20,
-                  //   ),
-                  // ),
-
-                  // Expanded(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(left: 8),
-                  //     child: Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           capitalizeAllWord(widget.event.username),
-                  //           style: const TextStyle(
-                  //               fontWeight: FontWeight.w500,
-                  //               fontFamily: 'Montserrat',
-                  //               fontSize: 15),
-                  //         ),
-                  //         Text(
-                  //           widget.event.bio,
-                  //           style: const TextStyle(
-                  //               fontFamily: 'Montserrat',
-                  //               fontSize: 11,
-                  //               fontWeight: FontWeight.w500),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -230,7 +204,6 @@ class _EventWidgetState extends State<EventWidget> {
                       )
                     ],
                   ),
-
                   widget.event.uid == user.uid
                       ? IconButton(
                           onPressed: () {
