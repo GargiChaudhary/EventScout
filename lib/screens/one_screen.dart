@@ -34,7 +34,7 @@ class _BookmarkScreenState extends State<OneScreen> {
           title: const Text('Flutter Uber'),
         ),
         floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.navigate_next),
+            child: const Icon(Icons.navigate_next),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
@@ -61,7 +61,15 @@ class _BookmarkScreenState extends State<OneScreen> {
               },
               onCameraIdle: () {
                 print("camera idle");
-                getAddressFromLatLng();
+                _controller.future.then((GoogleMapController? controller) {
+                  controller
+                      ?.getLatLng(ScreenCoordinate(x: 0, y: 0))
+                      .then((LatLng latLng) {
+                    print(
+                        "Latitude: ${latLng.latitude}, Longitude: ${latLng.longitude}");
+                    getAddressFromLatLng(latLng.latitude, latLng.longitude);
+                  });
+                });
               },
               onTap: (latLng) {
                 print(latLng);
@@ -101,17 +109,33 @@ class _BookmarkScreenState extends State<OneScreen> {
         ));
   }
 
-  getAddressFromLatLng() async {
+  getAddressFromLatLng(double latitude, double longitude) async {
     try {
+      // print(destLocation!.latitude);
+      // print(destLocation!.longitude);
+      // GeoData data = await Geocoder2.getDataFromCoordinates(
+      //   latitude: destLocation!.latitude,
+      //   longitude: destLocation!.longitude,
+      //   googleMapApiKey: "AIzaSyDzA0Xd9COWOVmRQtbhDioaDv6zotqdiqg",
+      // );
       GeoData data = await Geocoder2.getDataFromCoordinates(
-        latitude: destLocation!.latitude,
-        longitude: destLocation!.longitude,
+        latitude: latitude,
+        longitude: longitude,
         googleMapApiKey: "AIzaSyDzA0Xd9COWOVmRQtbhDioaDv6zotqdiqg",
       );
+      print("Data latitude is ${data.latitude}");
+      print("Data longitude is ${data.longitude}");
+      print("Data city is ${data.city}");
+      print("Data country is ${data.country}");
+      print("Data address is ${data.address}");
+      print("Data state is ${data.state}");
       setState(() {
+        print("Inside setState, setting _address = data.address");
+
         _address = data.address;
       });
     } catch (e) {
+      print("The error in getAddressFromLatLng is: $e");
       showSnackBar(e.toString(), context);
     }
   }
@@ -142,14 +166,19 @@ class _BookmarkScreenState extends State<OneScreen> {
       location.changeSettings(accuracy: loc.LocationAccuracy.high);
 
       _currentPosition = await location.getLocation();
-      controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target:
-              LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!),
-          zoom: 16)));
-      setState(() {
-        destLocation =
-            LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
-      });
+      print("The current position is $_currentPosition");
+      if (_currentPosition != null) {
+        controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+            target: LatLng(
+                _currentPosition!.latitude!, _currentPosition!.longitude!),
+            zoom: 16)));
+        setState(() {
+          print(
+              "Inside setState, setting destLocation = ${_currentPosition!.latitude!}, ${_currentPosition!.longitude!}");
+          destLocation =
+              LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
+        });
+      }
     }
   }
 }

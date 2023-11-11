@@ -102,81 +102,58 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ));
   }
 
-  addMarker() {
-    setState(() {
-      sourcePosition = Marker(
-          markerId: MarkerId('source'),
-          position: curLocation,
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure));
-      destinationPosition = Marker(
-          markerId: MarkerId('destination'),
-          position: LatLng(widget.lat, widget.lng),
-          icon:
-              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan));
-    });
-  }
-
   getNavigation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    // bool _serviceEnabled;
+    // PermissionStatus _permissionGranted;
     final GoogleMapController? controller = await _controller.future;
     location.changeSettings(accuracy: loc.LocationAccuracy.high);
-    _serviceEnabled = await location.serviceEnabled();
+    // _serviceEnabled = await location.serviceEnabled();
+    // if (!_serviceEnabled) {
+    //   _serviceEnabled = await location.requestService();
+    //   if (!_serviceEnabled) {
+    //     return;
+    //   }
+    // }
+    // _permissionGranted = await location.hasPermission();
+    // if (_permissionGranted == PermissionStatus.denied) {
+    //   _permissionGranted == await location.requestPermission();
+    //   if (_permissionGranted != PermissionStatus.granted) {
+    //     return;
+    //   }
+    // }
+    // if (_permissionGranted == loc.PermissionStatus.granted) {
 
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted == await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    if (_permissionGranted == loc.PermissionStatus.granted) {
-      // location.changeSettings(accuracy: loc.LocationAccuracy.high);
-
-      _currentPosition = await location.getLocation();
-      curLocation =
-          LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
-      locationSubscription =
-          location.onLocationChanged.listen((LocationData currentLocation) {
-        controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-            target:
-                LatLng(currentLocation.latitude!, currentLocation.longitude!),
-            zoom: 16)));
-        if (mounted) {
-          controller
-              ?.showMarkerInfoWindow(MarkerId(sourcePosition!.markerId.value));
-          setState(() {
-            curLocation =
-                LatLng(currentLocation.latitude!, currentLocation.longitude!);
-            sourcePosition = Marker(
-              markerId: MarkerId(currentLocation.toString()),
-              icon: BitmapDescriptor.defaultMarkerWithHue(
-                  BitmapDescriptor.hueBlue),
-              position:
-                  LatLng(currentLocation.latitude!, currentLocation.longitude!),
-              infoWindow: InfoWindow(
-                  title: double.parse(
-                          (getDistance(LatLng(widget.lat, widget.lng))
-                              .toStringAsFixed(2)))
-                      .toString()),
-              onTap: () {
-                print('marker tapped');
-              },
-            );
-          });
-          getDirections(LatLng(widget.lat, widget.lng));
-        }
+    _currentPosition = await location.getLocation();
+    curLocation =
+        LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
+    locationSubscription =
+        location.onLocationChanged.listen((LocationData currentLocation) {
+      controller?.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+          target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          zoom: 16)));
+      // if (mounted) {
+      controller
+          ?.showMarkerInfoWindow(MarkerId(sourcePosition!.markerId.value));
+      setState(() {
+        curLocation =
+            LatLng(currentLocation.latitude!, currentLocation.longitude!);
+        sourcePosition = Marker(
+          markerId: MarkerId(currentLocation.toString()),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          position:
+              LatLng(currentLocation.latitude!, currentLocation.longitude!),
+          infoWindow: InfoWindow(
+              title:
+                  ' ${double.parse((getDistance(LatLng(widget.lat, widget.lng)).toStringAsFixed(2))).toString()} km'),
+          onTap: () {
+            print('marker tapped');
+          },
+        );
       });
-    }
+      getDirections(LatLng(widget.lat, widget.lng));
+      // }
+      // }
+    });
   }
 
   getDirections(LatLng dst) async {
@@ -220,5 +197,20 @@ class _NavigationScreenState extends State<NavigationScreen> {
   double getDistance(LatLng destposition) {
     return calculateDistance(curLocation.latitude, curLocation.longitude,
         destposition.latitude, destposition.longitude);
+  }
+
+  addMarker() {
+    setState(() {
+      sourcePosition = Marker(
+          markerId: const MarkerId('source'),
+          position: curLocation,
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure));
+      destinationPosition = Marker(
+          markerId: const MarkerId('destination'),
+          position: LatLng(widget.lat, widget.lng),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan));
+    });
   }
 }

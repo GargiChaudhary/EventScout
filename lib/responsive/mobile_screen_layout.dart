@@ -1,7 +1,7 @@
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:events/screens/add_event_screen.dart';
-import 'package:events/screens/bookmark_screen.dart';
 import 'package:events/screens/home_screen.dart';
+import 'package:events/screens/map_screen.dart';
 import 'package:events/screens/profile_screen.dart';
 import 'package:events/screens/search_screen.dart';
 import 'package:events/utils/colors.dart';
@@ -50,12 +50,12 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: [
+          const HomePage(),
+          const SearchScreen(),
+          const MapScreen(),
           ProfileScreen(
             uid: FirebaseAuth.instance.currentUser!.uid,
           ),
-          SearchScreen(),
-          BookmarkScreen(),
-          HomePage(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
