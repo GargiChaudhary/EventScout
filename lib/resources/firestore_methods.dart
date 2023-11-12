@@ -16,10 +16,12 @@ class FirestoreMethods {
       String username,
       String profImage,
       String bio,
-      String location,
+      String address,
       String duration,
       String punchLine,
       String eventId,
+      double latitude,
+      double longitude,
       List<int> categoryIds,
       List<String> galleryImages) async {
     String res = "some error occured";
@@ -35,7 +37,7 @@ class FirestoreMethods {
       print("THE profImage IS::::::: $profImage :::::: END");
       print("THE bio IS::::::: $bio :::::: END");
       print("THE description IS::::::: $description :::::: END");
-      print("THE location IS::::::: $location :::::: END");
+      print("THE address IS::::::: $address :::::: END");
       print("THE duration IS::::::: $duration :::::: END");
       print("THE categoryIds IS::::::: $categoryIds :::::: END");
       print("THE galleryImages IS::::::: $galleryImages :::::: END");
@@ -48,24 +50,17 @@ class FirestoreMethods {
           profImage: profImage,
           bio: bio,
           description: description,
-          location: location,
+          address: address,
           duration: duration,
           punchLine: punchLine,
           categoryIds: categoryIds,
           galleryImages: galleryImages,
+          latitude: latitude,
+          longitude: longitude,
           eventUrl: photoUrl);
 
       _firestore.collection('events').doc(eventId).set(event.toJson());
       print("uploaded event to firebase");
-      // _firestore
-      //     .collection('events')
-      //     .doc(eventId)
-      //     .set(event.toJson())
-      //     .then((_) {
-      //   print("Uploaded event to Firestore");
-      // }).catchError((error) {
-      //   print("Firestore Error: $error");
-      // });
       res = "success";
     } catch (e) {
       res = e.toString();

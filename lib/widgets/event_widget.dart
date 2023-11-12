@@ -92,7 +92,7 @@ class _EventWidgetState extends State<EventWidget> {
     //                       child: Row(
     //                         children: [
     //                           Icon(
-    //                             Icons.location_on,
+    //                             Icons.address_on,
     //                             size: 14,
     //                             color: Theme.of(context).hintColor,
     //                           ),
@@ -100,7 +100,7 @@ class _EventWidgetState extends State<EventWidget> {
     //                             width: 5,
     //                           ),
     //                           Text(
-    //                             event.location,
+    //                             event.address,
     //                             style: TextStyle(
     //                                 fontFamily: 'Montserrat',
     //                                 fontSize: 13,
@@ -192,7 +192,7 @@ class _EventWidgetState extends State<EventWidget> {
                             width: 5,
                           ),
                           Text(
-                            capitalizeAllWord(widget.event.location),
+                            capitalizeAllWord(widget.event.address),
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Montserrat',

@@ -81,7 +81,7 @@ class EventDetailsContent extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      event.location,
+                      event.address,
                       style: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 15,

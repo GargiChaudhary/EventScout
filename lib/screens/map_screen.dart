@@ -26,10 +26,15 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: primaryColor,
       ),
       body: OpenStreetMapSearchAndPick(
-          center: LatLong(28.7041, 77.1025),
+          center: const LatLong(28.7041, 77.1025),
           buttonColor: primaryColor,
           buttonText: 'Done',
           onPicked: (pickedData) {
+            Navigator.pop(context, {
+              'address': pickedData.address,
+              'latitude': pickedData.latLong.latitude,
+              'longitude': pickedData.latLong.longitude,
+            });
             print('Latitude : ${pickedData.latLong.latitude}');
             print('Longitude: ${pickedData.latLong.longitude}');
             print(pickedData.address);
