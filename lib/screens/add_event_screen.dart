@@ -35,65 +35,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final ImagePicker picker = ImagePicker();
   String eventId = const Uuid().v1();
 
-  //##########  FILE wala code ##########
-  // Future getImages() async {
-  //   final pickedFile = await picker.pickMultiImage(
-  //       imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
-  //   List<XFile> xfilePick = pickedFile;
-  //   setState(
-  //     () {
-  //       if (xfilePick.isNotEmpty) {
-  //         for (var i = 0; i < xfilePick.length; i++) {
-  //           galleryImages.add(File(xfilePick[i].path));
-  //         }
-  //       } else {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //             const SnackBar(content: Text('Nothing is selected')));
-  //       }
-  //     },
-  //   );
-  // }
-
-  // #### uint8list wala #######
-  // Future<void> getImages() async {
-  //   List<XFile> images = await ImagePicker().pickMultiImage();
-  //   if (images != null) {
-  //     List<Uint8List> newImages = await Future.wait(
-  //       images.map((image) async {
-  //         final bytes = await image.readAsBytes();
-  //         return Uint8List.fromList(bytes);
-  //       }),
-  //     );
-  //     setState(() {
-  //       galleryImages.addAll(newImages);
-  //     });
-  //   }
-  // }
-
-  // async setstate
-  // Future getImages() async {
-  //   final pickedFiles = await picker.pickMultiImage(
-  //       imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
-  //   setState(() async {
-  //     if (pickedFiles.isNotEmpty) {
-  //       for (var i = 0; i < pickedFiles.length; i++) {
-  //         final pickedFile = pickedFiles[i];
-  //         final Uint8List imageBytes = await pickedFile.readAsBytes();
-  //         final Reference storageRef = FirebaseStorage.instance
-  //             .ref()
-  //             .child('events/$eventId/image$i.jpg');
-  //         await storageRef.putData(imageBytes);
-  //         final imageUrl = await storageRef.getDownloadURL();
-  //         galleryImages.add(imageUrl);
-  //       }
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Nothing is selected')),
-  //       );
-  //     }
-  //   });
-  // }
-
   Future getImages() async {
     final pickedFiles = await picker.pickMultiImage(
         imageQuality: 100, maxHeight: 1000, maxWidth: 1000);

@@ -50,106 +50,11 @@ class _EventWidgetState extends State<EventWidget> {
   @override
   Widget build(BuildContext context) {
     DateTime eventDate = DateFormat('yyyy-MM-dd').parse(widget.event.duration);
-    // return Card(
-    //   margin: const EdgeInsets.symmetric(vertical: 15),
-    //   elevation: 4,
-    //   color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-    //   shape: const RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.all(Radius.circular(15))),
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(10),
-    //     child: Column(
-    //       crossAxisAlignment: CrossAxisAlignment.stretch,
-    //       children: <Widget>[
-    //         ClipRRect(
-    //           borderRadius: const BorderRadius.all(Radius.circular(15)),
-    //           child: Image.network(
-    //             event.eventUrl,
-    //             height: 150,
-    //             fit: BoxFit.fitWidth,
-    //           ),
-    //         ),
-    //         Padding(
-    //           padding: const EdgeInsets.only(top: 8.0, left: 8.0),
-    //           child: Row(
-    //             children: <Widget>[
-    //               Expanded(
-    //                 flex: 3,
-    //                 child: Column(
-    //                   crossAxisAlignment: CrossAxisAlignment.start,
-    //                   children: <Widget>[
-    //                     Text(
-    //                       event.title,
-    //                       style: TextStyle(
-    //                           fontFamily: 'Montserrat',
-    //                           fontSize: 17,
-    //                           color: Theme.of(context).hintColor),
-    //                     ),
-    //                     const SizedBox(
-    //                       height: 5,
-    //                     ),
-    //                     FittedBox(
-    //                       child: Row(
-    //                         children: [
-    //                           Icon(
-    //                             Icons.location_on,
-    //                             size: 14,
-    //                             color: Theme.of(context).hintColor,
-    //                           ),
-    //                           const SizedBox(
-    //                             width: 5,
-    //                           ),
-    //                           Text(
-    //                             event.location,
-    //                             style: TextStyle(
-    //                                 fontFamily: 'Montserrat',
-    //                                 fontSize: 13,
-    //                                 color: Theme.of(context).hintColor),
-    //                           )
-    //                         ],
-    //                       ),
-    //                     )
-    //                   ],
-    //                 ),
-    //               ),
-    //               Expanded(
-    //                 flex: 1,
-    //                 child: Text(
-    //                   event.duration.toUpperCase(),
-    //                   textAlign: TextAlign.right,
-    //                   style: TextStyle(
-    //                       fontFamily: 'Montserrat',
-    //                       fontSize: 17,
-    //                       fontWeight: FontWeight.w600,
-    //                       color: Theme.of(context).hintColor),
-    //                 ),
-    //               )
-    //             ],
-    //           ),
-    //         )
-    //       ],
-    //     ),
-    //   ),
-    // );
+
     final User user = Provider.of<UserProvider>(context).getUser;
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
-        // decoration: BoxDecoration(
-        //     color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-        //     boxShadow: [
-        //       BoxShadow(
-        //         color: Theme.of(context).shadowColor.withOpacity(0.6),
-        //         spreadRadius: 1,
-        //         blurRadius: 5,
-        //         offset: const Offset(0, 5),
-        //       )
-        //     ],
-        //     border: Border.all(
-        //       color: Theme.of(context).shadowColor.withOpacity(0.5),
-        //       width: 2,
-        //     ),
-        //     borderRadius: BorderRadius.circular(15)),
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).hintColor.withAlpha(80)),
           borderRadius: BorderRadius.circular(15),
