@@ -20,6 +20,8 @@ class FirestoreMethods {
       String duration,
       String punchLine,
       String eventId,
+      double latitude,
+      double longitude,
       List<int> categoryIds,
       List<String> galleryImages) async {
     String res = "some error occured";
@@ -51,6 +53,8 @@ class FirestoreMethods {
           location: location,
           duration: duration,
           punchLine: punchLine,
+          latitude: latitude,
+          longitude: longitude,
           categoryIds: categoryIds,
           galleryImages: galleryImages,
           eventUrl: photoUrl);

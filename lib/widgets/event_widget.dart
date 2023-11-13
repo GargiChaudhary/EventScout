@@ -173,13 +173,17 @@ class _EventWidgetState extends State<EventWidget> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        capitalizeAllWord(widget.event.title),
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).hintColor),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Text(
+                          capitalizeAllWord(widget.event.title),
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).hintColor),
+                          softWrap: true,
+                        ),
                       ),
                       Row(
                         children: [
@@ -191,14 +195,17 @@ class _EventWidgetState extends State<EventWidget> {
                           const SizedBox(
                             width: 5,
                           ),
-                          Text(
-                            capitalizeAllWord(widget.event.location),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Montserrat',
-                                fontSize: 13,
-                                color: Theme.of(context).hintColor),
-                            // softWrap: true,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.65,
+                            child: Text(
+                              capitalizeAllWord(widget.event.location),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Theme.of(context).hintColor),
+                              softWrap: true,
+                            ),
                           )
                         ],
                       )
@@ -258,7 +265,6 @@ class _EventWidgetState extends State<EventWidget> {
               ),
             ),
 
-            //row of loaction and date etc
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               child: Row(

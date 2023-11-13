@@ -1,6 +1,7 @@
 import 'package:events/model/our_user.dart';
 import 'package:events/providers/user_provider.dart';
 import 'package:events/resources/firestore_methods.dart';
+import 'package:events/screens/map_screen.dart';
 import 'package:events/utils/utils.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -27,7 +28,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _punchLineController = TextEditingController();
   List<int> categoryIds = [];
-
+  double? latitude;
+  double? longitude;
   List<String> galleryImages = [];
   bool _isLoading = false;
   final ImagePicker picker = ImagePicker();
@@ -173,6 +175,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
           _durationController.text,
           _punchLineController.text,
           eventId,
+          latitude!,
+          longitude!,
           categoryIds,
           galleryImages);
       if (res == "success") {
@@ -490,7 +494,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                     .format(pickedDate);
                                             setState(() {
                                               _durationController.text =
-                                                  formattedDate;
+                                                  formattedDate; //
                                             });
                                           }
                                         });
@@ -544,6 +548,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       DropdownMenuEntry(
                                           value: 8, label: 'Others'),
                                     ]),
+                                // TextField(
+                                //   controller: _locationController,
+                                //   style: TextStyle(
+                                //       fontFamily: 'Montserrat',
+                                //       color: Theme.of(context).hintColor,
+                                //       fontWeight: FontWeight.w600,
+                                //       fontSize: 13),
+                                //   decoration: InputDecoration(
+                                //     hintText: "Location",
+                                //     hintStyle: TextStyle(
+                                //         fontFamily: 'Montserrat',
+                                //         color: Theme.of(context).hintColor,
+                                //         fontWeight: FontWeight.w600,
+                                //         fontSize: 13),
+                                //     contentPadding: const EdgeInsets.all(8),
+                                //   ),
+                                // ),
                                 TextField(
                                   controller: _locationController,
                                   style: TextStyle(
@@ -552,15 +573,38 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       fontWeight: FontWeight.w600,
                                       fontSize: 13),
                                   decoration: InputDecoration(
-                                    hintText: "Location",
+                                    hintText: 'Select Location',
                                     hintStyle: TextStyle(
                                         fontFamily: 'Montserrat',
                                         color: Theme.of(context).hintColor,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13),
                                     contentPadding: const EdgeInsets.all(8),
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(Icons.location_on),
+                                      onPressed: () async {
+                                        // Navigate to the location selection page and wait for result
+                                        var result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const MapScreen()),
+                                        );
+
+                                        if (result != null) {
+                                          setState(() {
+                                            // Update the TextField with the selected address
+                                            _locationController.text =
+                                                result['address'];
+                                            latitude = result['latitude'];
+                                            longitude = result['longitude'];
+                                            // Assuming 'address' is the key for the address
+                                          });
+                                        }
+                                      },
+                                    ),
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
