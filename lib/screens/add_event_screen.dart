@@ -590,7 +590,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                               builder: (context) =>
                                                   const MapScreen()),
                                         );
-
                                         if (result != null) {
                                           setState(() {
                                             // Update the TextField with the selected address
