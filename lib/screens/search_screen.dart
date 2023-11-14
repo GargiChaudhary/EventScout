@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
+import 'package:events/screens/profile_screen.dart';
+import 'package:events/screens/search_by_distance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -74,25 +76,64 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isShowEvent = false;
-                  });
-                },
-                child: const Text('Users'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isShowEvent = true;
-                  });
-                },
-                child: const Text('Events'),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isShowEvent = false;
+                        });
+                      },
+                      child: Text(
+                        'Users',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).hintColor),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          isShowEvent = true;
+                        });
+                      },
+                      child: Text(
+                        'Events',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).hintColor),
+                      ),
+                    ),
+                  ],
+                ),
+                InkWell(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SearchByDistance())),
+                  child: Text(
+                    "Search by distance?",
+                    style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).hintColor),
+                  ),
+                )
+              ],
+            ),
           ),
           FutureBuilder(
             future: searchController.text.isEmpty
@@ -304,20 +345,32 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).shadowColor.withOpacity(0.3),
-                  spreadRadius: 0.2,
-                  blurRadius: 3,
-                  offset: const Offset(0, 3),
-                )
-              ],
-              border: Border.all(
-                color: Theme.of(context).shadowColor.withOpacity(0.5),
-                width: 0.6,
+            // color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Theme.of(context).shadowColor.withOpacity(0.3),
+            //     spreadRadius: 0.2,
+            //     blurRadius: 3,
+            //     offset: const Offset(0, 3),
+            //   )
+            // ],
+            // border: Border.all(
+            //   color: Theme.of(context).shadowColor.withOpacity(0.5),
+            //   width: 0.6,
+            // ),
+            // borderRadius: BorderRadius.circular(8)
+            border: Border.all(
+                width: 0.5, color: Theme.of(context).hintColor.withAlpha(80)),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).focusColor.withAlpha(100),
+                blurRadius: 10.0,
+                spreadRadius: 0.0,
               ),
-              borderRadius: BorderRadius.circular(8)),
+            ],
+            color: Theme.of(context).primaryColor.withOpacity(0.2),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -331,7 +384,7 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
                           (snapshot.data! as dynamic).docs[index]['title']),
                       style: TextStyle(
                           fontFamily: 'Montserrat',
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: Theme.of(context).hintColor),
                       softWrap: true,
@@ -353,7 +406,7 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontFamily: 'Montserrat',
-                                fontSize: 13,
+                                fontSize: 12,
                                 color: Theme.of(context).hintColor),
                             softWrap: true,
                           ),
@@ -384,7 +437,7 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
                         calculateTimeLeft(eventDate),
                         style: TextStyle(
                             fontFamily: 'Montserrat',
-                            fontSize: 13,
+                            fontSize: 12,
                             color: Theme.of(context).hintColor),
                       )
                     ],
@@ -400,11 +453,76 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
 }
 
 Widget buildUserResults(AsyncSnapshot snapshot) {
-  return Container(
-    width: 400,
-    height: 400,
-    padding: const EdgeInsets.all(10),
-    child: const Text("showing users"),
+  //row -- circleavatar
+  //    -- column -- name and bio
+  return ListView.builder(
+    shrinkWrap: true,
+    itemCount: (snapshot.data! as dynamic).docs.length,
+    itemBuilder: (context, index) {
+      return InkWell(
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ProfileScreen(
+                uid: (snapshot.data! as dynamic).docs[index]['uid']))),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            border:
+                Border.all(color: Theme.of(context).hintColor.withAlpha(80)),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).focusColor.withAlpha(100),
+                blurRadius: 10.0,
+                spreadRadius: 0.0,
+              ),
+            ],
+            color: Theme.of(context).focusColor.withOpacity(0.2),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 18,
+                backgroundImage: NetworkImage(
+                    (snapshot.data! as dynamic).docs[index]['photoUrl']),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      capitalizeAllWord(
+                          (snapshot.data! as dynamic).docs[index]['username']),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Theme.of(context).hintColor),
+                      softWrap: true,
+                    ),
+                    Text(
+                      capitalizeAllWord(
+                          (snapshot.data! as dynamic).docs[index]['bio']),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).hintColor),
+                      softWrap: true,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }
 
