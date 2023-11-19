@@ -84,6 +84,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 Row(
                   children: [
                     ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Theme.of(context).focusColor)),
                       onPressed: () {
                         setState(() {
                           isShowEvent = false;
@@ -102,6 +105,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       width: 10,
                     ),
                     ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Theme.of(context).focusColor)),
                       onPressed: () {
                         setState(() {
                           isShowEvent = true;
