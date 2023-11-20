@@ -3,6 +3,7 @@ import 'package:events/screens/add_event_screen.dart';
 import 'package:events/screens/home_screen.dart';
 import 'package:events/screens/map_screen.dart';
 import 'package:events/screens/profile_screen.dart';
+import 'package:events/screens/search_by_distance.dart';
 import 'package:events/screens/search_screen.dart';
 import 'package:events/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,6 +51,7 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: [
+          const SearchByDistance(),
           const HomePage(),
           const SearchScreen(),
           const MapScreen(),

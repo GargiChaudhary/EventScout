@@ -1,5 +1,7 @@
-import 'package:events/widgets/home_page_background.dart';
+import 'package:events/widgets/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart' as loc;
 
 class SearchByDistance extends StatefulWidget {
   const SearchByDistance({super.key});
@@ -8,22 +10,60 @@ class SearchByDistance extends StatefulWidget {
   State<SearchByDistance> createState() => _SearchByDistanceState();
 }
 
+Future<Position> getLocation() async {
+  bool serviceEnabled;
+  loc.LocationPermission permission;
+
+  // Check if location services are enabled
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    // Handle case when location services are not enabled
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+  }
+  return await Geolocator.getCurrentPosition();
+}
+
 class _SearchByDistanceState extends State<SearchByDistance> {
+  double? userLat;
+  double? userLng;
+  @override
+  void initState() {
+    getLocation().then((value) {
+      userLat = value.latitude;
+      userLng = value.longitude;
+    });
+    super.initState();
+  }
+
   double maxDistance = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          HomePageBackground(
-            screenHeight: MediaQuery.of(context).size.height,
-          ),
-          Column(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
               Text(
-                "Search events within ",
+                "Search events within",
+                // textAlign: TextAlign.left,
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 15,
@@ -32,136 +72,121 @@ class _SearchByDistanceState extends State<SearchByDistance> {
               ),
               const SizedBox(height: 20),
               Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "10 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 10;
-                      });
-                    },
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "50 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 50;
-                      });
-                    },
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "70 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 70;
-                      });
-                    },
-                  ),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 0;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "All events")),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 10;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "10 km")),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 50;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "50 km")),
+
+                  // ElevatedButton(
+                  //   style: ButtonStyle(
+                  //       backgroundColor: MaterialStatePropertyAll(
+                  //           Theme.of(context).focusColor)),
+                  //   child: Text(
+                  //     "70 km",
+                  //     style: TextStyle(
+                  //         fontFamily: 'Montserrat',
+                  //         fontSize: 13,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Theme.of(context).hintColor),
+                  //   ),
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       maxDistance = 70;
+                  //     });
+                  //   },
+                  // ),
                 ],
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "100 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 100;
-                      });
-                    },
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "200 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 200;
-                      });
-                    },
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Theme.of(context).focusColor)),
-                    child: Text(
-                      "300 km",
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).hintColor),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        maxDistance = 300;
-                      });
-                    },
-                  ),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 70;
+                        });
+                      },
+                      child: const MyButton(text: "70 km")),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 100;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "100 km")),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 200;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "200 km")),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 300;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "300 km")),
+                  InkWell(
+                      onTap: () {
+                        setState(() {
+                          maxDistance = 500;
+                        });
+                        // print("max dis is: $maxDistance");
+                      },
+                      child: const MyButton(text: "500 km")),
                 ],
               ),
               // 10 , 50 , 70
               // 100, 200, 300,
               // 500 , all
+              const SizedBox(
+                height: 10,
+              ),
+              const Divider(
+                thickness: 0.2,
+              ),
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
 }
-
-// tum thakte nhi ho kya, poore din mere dimg m chlte chlte
-// jheel ko eng m khte h lake, why should i look for someone lese when u r laakhon m ek
-// tum amazon p listed ho ky, soch rhi hu prime membership lelu one day delivery hojati
-//tum shampoo ho kya, 
-// are you siri, becuase you autocomplete me
-// apke hth bde bhaari lgre h, lao aapke liye m pkd leti hu
-//I think I saw you on Spotify, you were listed as the hottest single.

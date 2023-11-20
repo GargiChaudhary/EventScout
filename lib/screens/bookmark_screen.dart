@@ -14,6 +14,6 @@ class _BookmarkScreenState extends State<BookmarkScreen> {
         appBar: AppBar(
           title: const Text('Form-Like Structure'),
         ),
-        body: Text("Hello"));
+        body: const Text("Hello"));
   }
 }
