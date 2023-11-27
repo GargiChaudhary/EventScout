@@ -165,13 +165,20 @@ class _SearchScreenState extends State<SearchScreen> {
               } else {
                 if (searchController.text.isEmpty || snapshot.data == null) {
                   return Center(
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      child: SvgPicture.asset(
-                        'assets/images/search.svg',
-                        height: 100,
-                        width: 100,
-                      ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 200,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          child: SvgPicture.asset(
+                            'assets/images/search.svg',
+                            height: 100,
+                            width: 100,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

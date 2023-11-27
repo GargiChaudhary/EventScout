@@ -15,6 +15,8 @@ class Event {
   final datePublished;
   final latitude;
   final longitude;
+  final ticketPrice;
+  final upiId;
   final List<int> categoryIds;
   final List<String> galleryImages;
 
@@ -33,6 +35,8 @@ class Event {
       required this.punchLine,
       required this.latitude,
       required this.longitude,
+      required this.ticketPrice,
+      required this.upiId,
       required this.categoryIds,
       required this.galleryImages});
 
@@ -53,6 +57,8 @@ class Event {
         "profImage": profImage,
         "latitude": latitude,
         "longitude": longitude,
+        "ticketPrice": ticketPrice,
+        "upiId": upiId,
       };
 
   static Event fromSnap(DocumentSnapshot snap) {
@@ -74,10 +80,10 @@ class Event {
       bio: snapshot['bio'],
       latitude: snapshot['latitude'],
       longitude: snapshot['longitude'],
+      ticketPrice: snapshot['ticketPrice'],
+      upiId: snapshot['upiId'],
     );
   }
 }
-
-
 // 3YT5ZUIWEUPUM 
 

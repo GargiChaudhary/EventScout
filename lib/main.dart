@@ -85,3 +85,5 @@ class _MyAppState extends State<MyApp> {
   }
 }
 //flutter run -d chrome --web-renderer html
+
+/*** EventScout is a dynamic mobile application developed using Flutter technology and integrated with Firebase for secure user authentication. This innovative app allows users to effortlessly explore and engage with events by providing features such as creating and adding events with comprehensive details like event name, date, location, images, descriptions, and subtitles. Moreover, EventScout offers a user-friendly search functionality that enables users to discover events based on their proximity, utilizing geolocation to filter events by distance from the user's current location. This project showcases my proficiency in mobile app development, Firebase integration, and leveraging geolocation services within Flutter to deliver a seamless event exploration experience for users." ***/

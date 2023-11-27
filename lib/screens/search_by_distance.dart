@@ -250,6 +250,8 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         Map<String, dynamic> eventData = snapshot.data![index];
                         Event event = Event(
                           title: eventData['title'],
+                          ticketPrice: eventData['ticketPrice'],
+                          upiId: eventData['upiId'],
                           uid: eventData['uid'],
                           username: eventData['username'],
                           eventId: eventData['eventId'],
