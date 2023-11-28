@@ -3,6 +3,8 @@ import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
 import 'package:events/screens/profile_screen.dart';
 import 'package:events/screens/search_by_distance.dart';
+import 'package:events/utils/colors.dart';
+import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -361,11 +363,7 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
               border: Border(
                   bottom: BorderSide(
                       color: Theme.of(context).hintColor.withOpacity(0.3),
-                      width: 0.2))
-              // border: Border.all(
-              //     width: 0.2,
-              //     color: Theme.of(context).hintColor.withOpacity(0.3)),
-              ),
+                      width: 0.2))),
           child: Row(
             children: [
               Container(
@@ -378,33 +376,71 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
               ),
               const SizedBox(width: 10),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}'),
+                    // Text(
+                    //   '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}',
+                    //   style: TextStyle(
+                    //       fontFamily: 'Montserrat',
+                    //       fontSize: 10,
+                    //       color: Theme.of(context).hintColor),
+                    // ),
+
                     Text(
                       capitalizeAllWord(
-                          (snapshot.data! as dynamic).docs[index]['title']),
-                      // softWrap: true,
+                        (snapshot.data! as dynamic).docs[index]['title'],
+                      ),
+                      style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 15,
+                          color: Palette.myPink.shade900,
+                          fontWeight: FontWeight.w600),
+                      softWrap: true,
+                    ),
+                    Text(
+                      (snapshot.data! as dynamic).docs[index]['punchLine'],
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 12,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      softWrap: true,
+                    ),
+                    const SizedBox(
+                      height: 6,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.access_time,
-                          size: 14,
-                          color: Theme.of(context).hintColor,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
                         Text(
-                          calculateTimeLeft(eventDate),
+                          '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
-                              fontSize: 12,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
                               color: Theme.of(context).hintColor),
-                        )
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.access_time,
+                              size: 13,
+                              color: Palette.myPink.shade900,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              calculateTimeLeft(eventDate),
+                              style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 13,
+                                  color: Theme.of(context).hintColor),
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ],

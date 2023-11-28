@@ -51,8 +51,9 @@ class _MobileScreenState extends State<MobileScreen> {
         onPageChanged: onPageChanged,
         children: [
           // const SearchByDistance(),
-          const HomePage(),
+
           const SearchScreen(),
+          const HomePage(),
           const MapScreen(),
           ProfileScreen(
             uid: FirebaseAuth.instance.currentUser!.uid,
