@@ -358,107 +358,135 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
-            // color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.9),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Theme.of(context).shadowColor.withOpacity(0.3),
-            //     spreadRadius: 0.2,
-            //     blurRadius: 3,
-            //     offset: const Offset(0, 3),
-            //   )
-            // ],
-            // border: Border.all(
-            //   color: Theme.of(context).shadowColor.withOpacity(0.5),
-            //   width: 0.6,
-            // ),
-            // borderRadius: BorderRadius.circular(8)
-            border: Border.all(
-                width: 0.5, color: Theme.of(context).hintColor.withAlpha(80)),
-            borderRadius: BorderRadius.circular(15),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).focusColor.withAlpha(100),
-                blurRadius: 10.0,
-                spreadRadius: 0.0,
+              border: Border(
+                  bottom: BorderSide(
+                      color: Theme.of(context).hintColor.withOpacity(0.3),
+                      width: 0.2))
+              // border: Border.all(
+              //     width: 0.2,
+              //     color: Theme.of(context).hintColor.withOpacity(0.3)),
               ),
-            ],
-            color: Theme.of(context).primaryColor.withOpacity(0.2),
-          ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage((snapshot.data! as dynamic)
+                            .docs[index]['eventUrl']))),
+              ),
+              const SizedBox(width: 10),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
+                width: MediaQuery.of(context).size.width * 0.5,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                        '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}'),
                     Text(
                       capitalizeAllWord(
                           (snapshot.data! as dynamic).docs[index]['title']),
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).hintColor),
-                      softWrap: true,
+                      // softWrap: true,
                     ),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 15,
-                          color: Colors.red,
+                        Icon(
+                          Icons.access_time,
+                          size: 14,
+                          color: Theme.of(context).hintColor,
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        Flexible(
-                          child: Text(
-                            capitalizeAllWord((snapshot.data! as dynamic)
-                                .docs[index]['location']),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Montserrat',
-                                fontSize: 12,
-                                color: Theme.of(context).hintColor),
-                            softWrap: true,
-                          ),
+                        Text(
+                          calculateTimeLeft(eventDate),
+                          style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 12,
+                              color: Theme.of(context).hintColor),
                         )
                       ],
-                    )
+                    ),
                   ],
                 ),
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
-                ),
-                onPressed: () {},
-                child: FittedBox(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.access_time,
-                        size: 14,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        calculateTimeLeft(eventDate),
-                        style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 12,
-                            color: Theme.of(context).hintColor),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              )
             ],
           ),
+          // child: Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     SizedBox(
+          //       width: MediaQuery.of(context).size.width * 0.4,
+          //       child: Column(
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: [
+          //           Text(
+          //             capitalizeAllWord(
+          //                 (snapshot.data! as dynamic).docs[index]['title']),
+          //             style: TextStyle(
+          //                 fontFamily: 'Montserrat',
+          //                 fontSize: 14,
+          //                 fontWeight: FontWeight.w600,
+          //                 color: Theme.of(context).hintColor),
+          //             softWrap: true,
+          //           ),
+          //           Row(
+          //             children: [
+          //               const Icon(
+          //                 Icons.location_on,
+          //                 size: 15,
+          //                 color: Colors.red,
+          //               ),
+          //               const SizedBox(
+          //                 width: 5,
+          //               ),
+          //               Flexible(
+          //                 child: Text(
+          //                   capitalizeAllWord((snapshot.data! as dynamic)
+          //                       .docs[index]['location']),
+          //                   style: TextStyle(
+          //                       fontWeight: FontWeight.w500,
+          //                       fontFamily: 'Montserrat',
+          //                       fontSize: 12,
+          //                       color: Theme.of(context).hintColor),
+          //                   softWrap: true,
+          //                 ),
+          //               )
+          //             ],
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //     ElevatedButton(
+          //       style: ButtonStyle(
+          //         backgroundColor: MaterialStateProperty.all<Color>(
+          //             Theme.of(context).primaryColor),
+          //       ),
+          //       onPressed: () {},
+          //       child: FittedBox(
+          //         child: Row(
+          //           children: [
+          //             Icon(
+          //               Icons.access_time,
+          //               size: 14,
+          //               color: Theme.of(context).hintColor,
+          //             ),
+          //             const SizedBox(
+          //               width: 5,
+          //             ),
+          //             Text(
+          //               calculateTimeLeft(eventDate),
+          //               style: TextStyle(
+          //                   fontFamily: 'Montserrat',
+          //                   fontSize: 12,
+          //                   color: Theme.of(context).hintColor),
+          //             )
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ),
       );
     },
