@@ -3,7 +3,6 @@ import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
 import 'package:events/screens/profile_screen.dart';
 import 'package:events/screens/search_by_distance.dart';
-import 'package:events/utils/colors.dart';
 import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -380,14 +379,6 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(
-                    //   '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}',
-                    //   style: TextStyle(
-                    //       fontFamily: 'Montserrat',
-                    //       fontSize: 10,
-                    //       color: Theme.of(context).hintColor),
-                    // ),
-
                     Text(
                       capitalizeAllWord(
                         (snapshot.data! as dynamic).docs[index]['title'],
@@ -400,7 +391,8 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
                       softWrap: true,
                     ),
                     Text(
-                      (snapshot.data! as dynamic).docs[index]['punchLine'],
+                      capitalizeFirstWord(
+                          (snapshot.data! as dynamic).docs[index]['punchLine']),
                       style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 12,
@@ -448,81 +440,6 @@ Widget buildEventResults(AsyncSnapshot snapshot) {
               )
             ],
           ),
-          // child: Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     SizedBox(
-          //       width: MediaQuery.of(context).size.width * 0.4,
-          //       child: Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             capitalizeAllWord(
-          //                 (snapshot.data! as dynamic).docs[index]['title']),
-          //             style: TextStyle(
-          //                 fontFamily: 'Montserrat',
-          //                 fontSize: 14,
-          //                 fontWeight: FontWeight.w600,
-          //                 color: Theme.of(context).hintColor),
-          //             softWrap: true,
-          //           ),
-          //           Row(
-          //             children: [
-          //               const Icon(
-          //                 Icons.location_on,
-          //                 size: 15,
-          //                 color: Colors.red,
-          //               ),
-          //               const SizedBox(
-          //                 width: 5,
-          //               ),
-          //               Flexible(
-          //                 child: Text(
-          //                   capitalizeAllWord((snapshot.data! as dynamic)
-          //                       .docs[index]['location']),
-          //                   style: TextStyle(
-          //                       fontWeight: FontWeight.w500,
-          //                       fontFamily: 'Montserrat',
-          //                       fontSize: 12,
-          //                       color: Theme.of(context).hintColor),
-          //                   softWrap: true,
-          //                 ),
-          //               )
-          //             ],
-          //           )
-          //         ],
-          //       ),
-          //     ),
-          //     ElevatedButton(
-          //       style: ButtonStyle(
-          //         backgroundColor: MaterialStateProperty.all<Color>(
-          //             Theme.of(context).primaryColor),
-          //       ),
-          //       onPressed: () {},
-          //       child: FittedBox(
-          //         child: Row(
-          //           children: [
-          //             Icon(
-          //               Icons.access_time,
-          //               size: 14,
-          //               color: Theme.of(context).hintColor,
-          //             ),
-          //             const SizedBox(
-          //               width: 5,
-          //             ),
-          //             Text(
-          //               calculateTimeLeft(eventDate),
-          //               style: TextStyle(
-          //                   fontFamily: 'Montserrat',
-          //                   fontSize: 12,
-          //                   color: Theme.of(context).hintColor),
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       );
     },
@@ -611,6 +528,14 @@ String capitalizeAllWord(String value) {
     } else {
       result = result + value[i];
     }
+  }
+  return result;
+}
+
+String capitalizeFirstWord(String value) {
+  var result = value[0].toUpperCase();
+  for (int i = 1; i < value.length; i++) {
+    result = result + value[i];
   }
   return result;
 }

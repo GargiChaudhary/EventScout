@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:events/model/event.dart';
 import 'package:events/screens/event_details_page.dart';
+import 'package:events/utils/palette.dart';
 import 'package:events/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -130,7 +131,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
               const SizedBox(height: 20),
               Text(
                 "Search events within",
-                // textAlign: TextAlign.left,
                 style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 15,
@@ -139,14 +139,12 @@ class _SearchByDistanceState extends State<SearchByDistance> {
               ),
               const SizedBox(height: 20),
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
                       onTap: () {
                         setState(() {
                           maxDistance = double.infinity;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "All events")),
                   InkWell(
@@ -154,7 +152,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         setState(() {
                           maxDistance = 10;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "10 km")),
                   InkWell(
@@ -162,7 +159,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         setState(() {
                           maxDistance = 50;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "50 km")),
                 ],
@@ -171,7 +167,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                 height: 10,
               ),
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   InkWell(
                       onTap: () {
@@ -185,7 +180,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         setState(() {
                           maxDistance = 100;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "100 km")),
                   InkWell(
@@ -193,7 +187,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         setState(() {
                           maxDistance = 200;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "200 km")),
                 ],
@@ -202,14 +195,12 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                 height: 10,
               ),
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   InkWell(
                       onTap: () {
                         setState(() {
                           maxDistance = 300;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "300 km")),
                   InkWell(
@@ -217,21 +208,16 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         setState(() {
                           maxDistance = 500;
                         });
-                        // print("max dis is: $maxDistance");
                       },
                       child: const MyButton(text: "500 km")),
                 ],
               ),
-              // 10 , 50 , 70
-              // 100, 200, 300,
-              // 500 , all
               const SizedBox(
                 height: 10,
               ),
               const Divider(
                 thickness: 0.2,
               ),
-
               FutureBuilder(
                 future: _getFilteredEvents(),
                 builder: (context, snapshot) {
@@ -271,6 +257,7 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                         );
                         DateTime eventDate = DateFormat('yyyy-MM-dd')
                             .parse(eventData['duration']);
+
                         return InkWell(
                           onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
@@ -282,102 +269,92 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 0.5,
-                                  color: Theme.of(context)
-                                      .hintColor
-                                      .withAlpha(80)),
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .focusColor
-                                      .withAlpha(100),
-                                  blurRadius: 10.0,
-                                  spreadRadius: 0.0,
-                                ),
-                              ],
-                              color: Theme.of(context)
-                                  .primaryColor
-                                  .withOpacity(0.2),
-                            ),
+                                border: Border(
+                                    bottom: BorderSide(
+                                        color: Theme.of(context)
+                                            .hintColor
+                                            .withOpacity(0.3),
+                                        width: 0.2))),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Container(
+                                  width: 70,
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              eventData['eventUrl']))),
+                                ),
+                                const SizedBox(width: 10),
                                 SizedBox(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.4,
+                                      MediaQuery.of(context).size.width * 0.7,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        capitalizeAllWord(eventData['title']),
+                                        capitalizeAllWord(
+                                          eventData['title'],
+                                        ),
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: Theme.of(context).hintColor),
+                                            fontSize: 15,
+                                            color: Palette.myPink.shade900,
+                                            fontWeight: FontWeight.w600),
                                         softWrap: true,
                                       ),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.location_on,
-                                            size: 15,
-                                            color: Colors.red,
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Flexible(
-                                            child: Text(
-                                              capitalizeAllWord(
-                                                  eventData['location']),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: 'Montserrat',
-                                                  fontSize: 12,
-                                                  color: Theme.of(context)
-                                                      .hintColor),
-                                              softWrap: true,
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).primaryColor),
-                                  ),
-                                  onPressed: () {},
-                                  child: FittedBox(
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.access_time,
-                                          size: 14,
+                                      Text(
+                                        capitalizeFirstWord(
+                                            eventData['punchLine']),
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 12,
                                           color: Theme.of(context).hintColor,
                                         ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          calculateTimeLeft(eventDate),
-                                          style: TextStyle(
-                                              fontFamily: 'Montserrat',
-                                              fontSize: 12,
-                                              color:
-                                                  Theme.of(context).hintColor),
-                                        )
-                                      ],
-                                    ),
+                                        softWrap: true,
+                                      ),
+                                      const SizedBox(
+                                        height: 6,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            '\u{20B9}${eventData['ticketPrice']}',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                color: Theme.of(context)
+                                                    .hintColor),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.access_time,
+                                                size: 13,
+                                                color: Palette.myPink.shade900,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                calculateTimeLeft(eventDate),
+                                                style: TextStyle(
+                                                    fontFamily: 'Montserrat',
+                                                    fontSize: 13,
+                                                    color: Theme.of(context)
+                                                        .hintColor),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
@@ -404,5 +381,14 @@ String capitalizeAllWord(String value) {
       result = result + value[i];
     }
   }
+  return result;
+}
+
+String capitalizeFirstWord(String value) {
+  var result = value[0].toUpperCase();
+  for (int i = 1; i < value.length; i++) {
+    result = result + value[i];
+  }
+
   return result;
 }
