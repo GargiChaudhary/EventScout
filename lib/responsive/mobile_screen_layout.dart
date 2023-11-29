@@ -50,10 +50,8 @@ class _MobileScreenState extends State<MobileScreen> {
         controller: pageController,
         onPageChanged: onPageChanged,
         children: [
-          // const SearchByDistance(),
-
-          const SearchScreen(),
           const HomePage(),
+          const SearchScreen(),
           const MapScreen(),
           ProfileScreen(
             uid: FirebaseAuth.instance.currentUser!.uid,
@@ -78,10 +76,7 @@ class _MobileScreenState extends State<MobileScreen> {
         onTap: navigationTapped,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         elevation: 8,
-        fabLocation: BubbleBottomBarFabLocation.end, //new
-        // hasNotch: true, //new
-        // hasInk: true, //new, gives a cute ink effect
-        // inkColor: Colors.black12, //optional, uses theme color if not specified
+        fabLocation: BubbleBottomBarFabLocation.end,
         items: <BubbleBottomBarItem>[
           BubbleBottomBarItem(
               backgroundColor: Colors.red,

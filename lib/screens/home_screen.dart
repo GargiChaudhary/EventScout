@@ -13,150 +13,123 @@ import '../widgets/home_page_background.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  // List<Event> allEvents = [];
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchAllEvents().then((events) {
-  //     if (events != null) {
-  //       setState(() {
-  //         allEvents = events;
-  //       });
-  //     }
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      // backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
       body: Stack(
         children: [
           HomePageBackground(
             screenHeight: MediaQuery.of(context).size.height,
           ),
           SafeArea(
-              child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        "EventsScout",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor,
-                            fontFamily: 'Montserrat',
-                            fontSize: 16),
-                      ),
-                      const Spacer(),
-                      const ChangeThemeButtonWidget()
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                  child: Text(capitalizeAllWord("What's Up Gargi!"),
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 30)),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
                     child: Row(
                       children: [
-                        for (final category in categories)
-                          CategoryWidget(category: category)
+                        Text(
+                          "EventsScout",
+                          style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontFamily: 'Montserrat',
+                              fontSize: 16),
+                        ),
+                        const Spacer(),
+                        const ChangeThemeButtonWidget()
                       ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Consumer<AppState>(
-                    builder: (context, appState, _) => StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('events')
-                          .orderBy('datePublished', descending: true)
-                          .snapshots(),
-                      builder: (context,
-                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                              snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (snapshot.hasError || !snapshot.hasData) {
-                          // Handle the error or the case when there's no data
-                          return Center(
-                            child: Text(snapshot.hasError
-                                ? 'Error: ${snapshot.error}'
-                                : 'No data available'),
-                          );
-                        }
-                        final selectedCategoryId = appState.selectedCategoryId;
-                        final events = snapshot.data!.docs
-                            .map((eventDoc) => Event.fromSnap(eventDoc))
-                            .where((event) =>
-                                event.categoryIds.contains(selectedCategoryId))
-                            .toList();
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: events.length,
-                          itemBuilder: (ctx, index) => Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal:
-                                  width > webScreenSize ? width * 0.3 : 0,
-                              vertical: width > webScreenSize ? 15 : 5,
-                            ),
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => EventDetailsPage(
-                                          event: events[index])));
-                                },
-                                child: EventWidget(event: events[index])),
-                          ),
-                        );
-                      },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                    child: Text(capitalizeAllWord("What's Up Gargi!"),
+                        style: TextStyle(
+                            color: Theme.of(context).hintColor,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w500,
+                            fontSize: 30)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          for (final category in categories)
+                            CategoryWidget(category: category)
+                        ],
+                      ),
                     ),
                   ),
-                  // child: Consumer<AppState>(
-                  //   builder: (context, appState, _) => Column(
-                  //     children: <Widget>[
-                  //       for (final event in allEvents.where((e) => e
-                  //           .categoryIds
-                  //           .contains(appState.selectedCategoryId)))
-                  //         GestureDetector(
-                  //           onTap: () {
-                  //             Navigator.of(context).push(MaterialPageRoute(
-                  //                 builder: (context) =>
-                  //                     EventDetailsPage(event: event)));
-                  //           },
-                  //           child: EventWidget(event: event),
-                  //         )
-                  //     ],
-                  //   ),
-                  // ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Consumer<AppState>(
+                      builder: (context, appState, _) => StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('events')
+                            .orderBy('datePublished', descending: true)
+                            .snapshots(),
+                        builder: (context,
+                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (snapshot.hasError || !snapshot.hasData) {
+                            // Handle the error or the case when there's no data
+                            return Center(
+                              child: Text(snapshot.hasError
+                                  ? 'Error: ${snapshot.error}'
+                                  : 'No data available'),
+                            );
+                          }
+                          final selectedCategoryId =
+                              appState.selectedCategoryId;
+                          final events = snapshot.data!.docs
+                              .map((eventDoc) => Event.fromSnap(eventDoc))
+                              .where((event) => event.categoryIds
+                                  .contains(selectedCategoryId))
+                              .toList();
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: events.length,
+                            itemBuilder: (ctx, index) => Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    width > webScreenSize ? width * 0.3 : 0,
+                                vertical: width > webScreenSize ? 15 : 5,
+                              ),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                EventDetailsPage(
+                                                    event: events[index])));
+                                  },
+                                  child: EventWidget(event: events[index])),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ))
+          )
         ],
       ),
     );
