@@ -78,8 +78,8 @@ class Event {
       datePublished: snapshot['datePublished'],
       profImage: snapshot['profImage'],
       bio: snapshot['bio'],
-      latitude: snapshot['latitude'],
-      longitude: snapshot['longitude'],
+      latitude: snapshot['latitude'].toDouble(),
+      longitude: snapshot['longitude'].toDouble(),
       ticketPrice: snapshot['ticketPrice'],
       upiId: snapshot['upiId'],
     );

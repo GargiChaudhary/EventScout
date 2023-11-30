@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                                   .contains(selectedCategoryId))
                               .toList();
                           return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: events.length,
                             itemBuilder: (ctx, index) => Container(

@@ -50,14 +50,11 @@ class _SearchByDistanceState extends State<SearchByDistance> {
     bool serviceEnabled;
     loc.LocationPermission permission;
 
-    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Handle case when location services are not enabled
       const SnackBar(content: Text("Location services are disabled."));
       return;
     }
-
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -66,7 +63,6 @@ class _SearchByDistanceState extends State<SearchByDistance> {
         return;
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
       const SnackBar(
           content: Text(
@@ -229,137 +225,141 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                     return Center(
                         child: Text('No events within $maxDistance km'));
                   } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> eventData = snapshot.data![index];
-                        Event event = Event(
-                          title: eventData['title'],
-                          ticketPrice: eventData['ticketPrice'],
-                          upiId: eventData['upiId'],
-                          uid: eventData['uid'],
-                          username: eventData['username'],
-                          eventId: eventData['eventId'],
-                          datePublished: eventData['datePublished'],
-                          profImage: eventData['profImage'],
-                          bio: eventData['bio'],
-                          description: eventData['description'],
-                          eventUrl: eventData['eventUrl'],
-                          location: eventData['location'],
-                          duration: eventData['duration'],
-                          punchLine: eventData['punchLine'],
-                          latitude: eventData['latitude'],
-                          longitude: eventData['longitude'],
-                          categoryIds: eventData['categoryIds'].cast<int>(),
-                          galleryImages:
-                              eventData['galleryImages'].cast<String>(),
-                        );
-                        DateTime eventDate = DateFormat('yyyy-MM-dd')
-                            .parse(eventData['duration']);
+                    return Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> eventData =
+                              snapshot.data![index];
+                          Event event = Event(
+                            title: eventData['title'],
+                            ticketPrice: eventData['ticketPrice'],
+                            upiId: eventData['upiId'],
+                            uid: eventData['uid'],
+                            username: eventData['username'],
+                            eventId: eventData['eventId'],
+                            datePublished: eventData['datePublished'],
+                            profImage: eventData['profImage'],
+                            bio: eventData['bio'],
+                            description: eventData['description'],
+                            eventUrl: eventData['eventUrl'],
+                            location: eventData['location'],
+                            duration: eventData['duration'],
+                            punchLine: eventData['punchLine'],
+                            latitude: eventData['latitude'],
+                            longitude: eventData['longitude'],
+                            categoryIds: eventData['categoryIds'].cast<int>(),
+                            galleryImages:
+                                eventData['galleryImages'].cast<String>(),
+                          );
+                          DateTime eventDate = DateFormat('yyyy-MM-dd')
+                              .parse(eventData['duration']);
 
-                        return InkWell(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EventDetailsPage(event: event))),
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        color: Theme.of(context)
-                                            .hintColor
-                                            .withOpacity(0.3),
-                                        width: 0.2))),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 70,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              eventData['eventUrl']))),
-                                ),
-                                const SizedBox(width: 10),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.7,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        capitalizeAllWord(
-                                          eventData['title'],
-                                        ),
-                                        style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15,
-                                            color: Palette.myPink.shade900,
-                                            fontWeight: FontWeight.w600),
-                                        softWrap: true,
-                                      ),
-                                      Text(
-                                        capitalizeFirstWord(
-                                            eventData['punchLine']),
-                                        style: TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 12,
-                                          color: Theme.of(context).hintColor,
-                                        ),
-                                        softWrap: true,
-                                      ),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '\u{20B9}${eventData['ticketPrice']}',
-                                            style: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: Theme.of(context)
-                                                    .hintColor),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.access_time,
-                                                size: 13,
-                                                color: Palette.myPink.shade900,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                calculateTimeLeft(eventDate),
-                                                style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 13,
-                                                    color: Theme.of(context)
-                                                        .hintColor),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                          return InkWell(
+                            onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EventDetailsPage(event: event))),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Theme.of(context)
+                                              .hintColor
+                                              .withOpacity(0.3),
+                                          width: 0.2))),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 70,
+                                    height: 70,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                eventData['eventUrl']))),
                                   ),
-                                )
-                              ],
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          capitalizeAllWord(
+                                            eventData['title'],
+                                          ),
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat',
+                                              fontSize: 15,
+                                              color: Palette.myPink.shade900,
+                                              fontWeight: FontWeight.w600),
+                                          softWrap: true,
+                                        ),
+                                        Text(
+                                          capitalizeFirstWord(
+                                              eventData['punchLine']),
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat',
+                                            fontSize: 12,
+                                            color: Theme.of(context).hintColor,
+                                          ),
+                                          softWrap: true,
+                                        ),
+                                        const SizedBox(
+                                          height: 6,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '\u{20B9}${eventData['ticketPrice']}',
+                                              style: TextStyle(
+                                                  fontFamily: 'Montserrat',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Theme.of(context)
+                                                      .hintColor),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.access_time,
+                                                  size: 13,
+                                                  color:
+                                                      Palette.myPink.shade900,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  calculateTimeLeft(eventDate),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Montserrat',
+                                                      fontSize: 13,
+                                                      color: Theme.of(context)
+                                                          .hintColor),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     );
                   }
                 },
