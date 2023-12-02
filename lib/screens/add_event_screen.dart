@@ -157,42 +157,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     int? categoryId;
-    return
-        // _file == null
-        //     ? Scaffold(
-        //         body: Center(
-        //             child: Column(
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             Text(
-        //               'Upload event image',
-        //               style: TextStyle(
-        //                   fontFamily: 'Montserrat',
-        //                   fontSize: 12,
-        //                   fontWeight: FontWeight.w600,
-        //                   color: Theme.of(context).hintColor),
-        //             ),
-        //             const SizedBox(height: 10),
-        //             GestureDetector(
-        //               onTap: () => _selectImage(context),
-        //               child: Container(
-        //                 height: 100,
-        //                 width: 100,
-        //                 decoration: BoxDecoration(
-        //                     color: Theme.of(context).primaryColor,
-        //                     borderRadius:
-        //                         const BorderRadius.all(Radius.circular(10)),
-        //                     image: const DecorationImage(
-        //                         fit: BoxFit.fill,
-        //                         image: AssetImage('assets/images/select.png'))),
-        //               ),
-        //             ),
-        //           ],
-        //         )),
-        //       )
-        //     :
-        Scaffold(
-      // backgroundColor: Palette.myPink.shade100,
+    return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
         elevation: 5,
@@ -279,13 +244,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               color:
                                   Theme.of(context).hintColor.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(15),
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //     color: Theme.of(context).hintColor.withAlpha(100),
-                          //     blurRadius: 5.0,
-                          //     spreadRadius: 0.0,
-                          //   ),
-                          //],
                           color: Theme.of(context).focusColor,
                         ),
                         child: Padding(
@@ -332,34 +290,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ),
                     ],
                   ),
-
-                  // Row(
-                  //   children: [
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     CircleAvatar(
-                  //       radius: 20,
-                  //       backgroundImage: NetworkImage(user.photoUrl),
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     Container(
-                  //       height: MediaQuery.of(context).size.width * 0.7,
-                  //       width: MediaQuery.of(context).size.width * 0.7,
-                  //       decoration: BoxDecoration(
-                  //           borderRadius:
-                  //               const BorderRadius.all(Radius.circular(10)),
-                  //           image: DecorationImage(
-                  //               fit: BoxFit.fill, image: MemoryImage(_file!))),
-                  //     ),
-                  //   ],
-                  // ),
                   const SizedBox(
                     height: 15,
                   ),
-
                   Container(
                     decoration: BoxDecoration(
                       border: Border.all(
