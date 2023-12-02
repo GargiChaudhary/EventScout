@@ -345,104 +345,106 @@ class _SearchScreenState extends State<SearchScreen> {
 }
 
 Widget buildEventResults(AsyncSnapshot snapshot) {
-  return ListView.builder(
-    shrinkWrap: true,
-    itemCount: (snapshot.data! as dynamic).docs.length,
-    itemBuilder: (context, index) {
-      DateTime eventDate = DateFormat('yyyy-MM-dd')
-          .parse((snapshot.data! as dynamic).docs[index]['duration']);
-      return InkWell(
-        onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => EventDetailsPage(
-                event: Event.fromSnap(snapshot.data!.docs[index])))),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Theme.of(context).hintColor.withOpacity(0.3),
-                      width: 0.2))),
-          child: Row(
-            children: [
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage((snapshot.data! as dynamic)
-                            .docs[index]['eventUrl']))),
-              ),
-              const SizedBox(width: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      capitalizeAllWord(
-                        (snapshot.data! as dynamic).docs[index]['title'],
-                      ),
-                      style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 15,
-                          color: Palette.myPink.shade900,
-                          fontWeight: FontWeight.w600),
-                      softWrap: true,
-                    ),
-                    Text(
-                      capitalizeFirstWord(
-                          (snapshot.data! as dynamic).docs[index]['punchLine']),
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 12,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      softWrap: true,
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}',
-                          style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).hintColor),
-                        ),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 13,
-                              color: Palette.myPink.shade900,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              calculateTimeLeft(eventDate),
-                              style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 13,
-                                  color: Theme.of(context).hintColor),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+  return Expanded(
+    child: ListView.builder(
+      shrinkWrap: true,
+      itemCount: (snapshot.data! as dynamic).docs.length,
+      itemBuilder: (context, index) {
+        DateTime eventDate = DateFormat('yyyy-MM-dd')
+            .parse((snapshot.data! as dynamic).docs[index]['duration']);
+        return InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => EventDetailsPage(
+                  event: Event.fromSnap(snapshot.data!.docs[index])))),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: Theme.of(context).hintColor.withOpacity(0.3),
+                        width: 0.2))),
+            child: Row(
+              children: [
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage((snapshot.data! as dynamic)
+                              .docs[index]['eventUrl']))),
                 ),
-              )
-            ],
+                const SizedBox(width: 10),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.65,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        capitalizeAllWord(
+                          (snapshot.data! as dynamic).docs[index]['title'],
+                        ),
+                        style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 15,
+                            color: Palette.myPink.shade900,
+                            fontWeight: FontWeight.w600),
+                        softWrap: true,
+                      ),
+                      Text(
+                        capitalizeFirstWord((snapshot.data! as dynamic)
+                            .docs[index]['punchLine']),
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 12,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        softWrap: true,
+                      ),
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '\u{20B9}${(snapshot.data! as dynamic).docs[index]['ticketPrice']}',
+                            style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).hintColor),
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                size: 13,
+                                color: Palette.myPink.shade900,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                calculateTimeLeft(eventDate),
+                                style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 13,
+                                    color: Theme.of(context).hintColor),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    },
+        );
+      },
+    ),
   );
 }
 

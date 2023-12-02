@@ -94,8 +94,8 @@ class _SearchByDistanceState extends State<SearchByDistance> {
       // Access event data as a map
       Map<String, dynamic> eventData = eventDoc.data();
 
-      double eventLatitude = eventData['latitude'] ?? 0.0;
-      double eventLongitude = eventData['longitude'] ?? 0.0;
+      double eventLatitude = eventData['latitude'];
+      double eventLongitude = eventData['longitude'];
       print("Event lat is: $eventLatitude");
       print("Event long is: $eventLongitude");
 
@@ -106,7 +106,8 @@ class _SearchByDistanceState extends State<SearchByDistance> {
         eventLongitude,
       );
       print("The distance between is: $distance");
-      if (distance <= maxDistance * 1000) {
+      if (distance <= maxDistance * 1000.0) {
+        print("Inside this distance if");
         filteredEvents.add(eventData);
       }
     });
