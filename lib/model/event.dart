@@ -11,7 +11,7 @@ class Event {
       eventId,
       eventUrl,
       profImage;
-  final duration;
+  final dateOfEvent;
   final datePublished;
   final latitude;
   final longitude;
@@ -31,7 +31,7 @@ class Event {
       required this.description,
       required this.eventUrl,
       required this.location,
-      required this.duration,
+      required this.dateOfEvent,
       required this.punchLine,
       required this.latitude,
       required this.longitude,
@@ -47,7 +47,7 @@ class Event {
         "title": title,
         "description": description,
         "location": location,
-        "duration": duration,
+        "dateOfEvent": dateOfEvent,
         "punchLine": punchLine,
         "categoryIds": categoryIds,
         "galleryImages": galleryImages,
@@ -67,7 +67,7 @@ class Event {
       title: snapshot['title'],
       description: snapshot['description'],
       location: snapshot['location'],
-      duration: snapshot['duration'],
+      dateOfEvent: snapshot['dateOfEvent'],
       punchLine: snapshot['punchLine'],
       categoryIds: snapshot['categoryIds'].cast<int>(),
       galleryImages: snapshot['galleryImages'].cast<String>(),

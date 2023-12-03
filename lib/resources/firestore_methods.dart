@@ -16,7 +16,7 @@ class FirestoreMethods {
       String profImage,
       String bio,
       String location,
-      String duration,
+      String dateOfEvent,
       String punchLine,
       String eventId,
       dynamic latitude,
@@ -39,7 +39,7 @@ class FirestoreMethods {
       print("THE bio IS::::::: $bio :::::: END");
       print("THE description IS::::::: $description :::::: END");
       print("THE address IS::::::: $location :::::: END");
-      print("THE duration IS::::::: $duration :::::: END");
+      print("THE dateOfEvent IS::::::: $dateOfEvent :::::: END");
       print("THE categoryIds IS::::::: $categoryIds :::::: END");
       print("THE galleryImages IS::::::: $galleryImages :::::: END");
       print("THE ticketPrice IS::::::: $ticketPrice :::::: END");
@@ -54,7 +54,7 @@ class FirestoreMethods {
           bio: bio,
           description: description,
           location: location,
-          duration: duration,
+          dateOfEvent: dateOfEvent,
           punchLine: punchLine,
           categoryIds: categoryIds,
           galleryImages: galleryImages,

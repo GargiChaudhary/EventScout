@@ -10,7 +10,7 @@ class BookTickets extends StatefulWidget {
 class _BookTicketsState extends State<BookTickets> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Text("Book tickets page"),
     );
   }

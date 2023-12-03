@@ -49,7 +49,8 @@ class _EventWidgetState extends State<EventWidget> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime eventDate = DateFormat('yyyy-MM-dd').parse(widget.event.duration);
+    DateTime eventDate =
+        DateFormat('yyyy-MM-dd').parse(widget.event.dateOfEvent);
 
     final User user = Provider.of<UserProvider>(context).getUser;
 
@@ -233,7 +234,7 @@ class _EventWidgetState extends State<EventWidget> {
                           ),
                           Text(
                             DateFormat.yMMMEd().format(
-                                DateTime.tryParse(widget.event.duration)!),
+                                DateTime.tryParse(widget.event.dateOfEvent)!),
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontSize: 13,

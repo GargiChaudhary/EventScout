@@ -1,5 +1,5 @@
 import 'package:events/model/guest.dart';
-import 'package:events/screens/book_tickets.dart';
+import 'package:events/screens/upi_payments.dart';
 import 'package:events/utils/colors.dart';
 import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +32,10 @@ class EventDetailsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // DateTime eventDate = DateFormat('yyyy-MM-dd').parse(widget.event.duration);
+    // DateTime eventDate = DateFormat('yyyy-MM-dd').parse(widget.event.dateOfEvent);
     final event = Provider.of<Event>(context);
     final screenWidth = MediaQuery.of(context).size.width;
-    DateTime eventDate = DateFormat('yyyy-MM-dd').parse(event.duration);
+    DateTime eventDate = DateFormat('yyyy-MM-dd').parse(event.dateOfEvent);
     return Stack(
       children: [
         Expanded(
@@ -143,7 +143,7 @@ class EventDetailsContent extends StatelessWidget {
                       ),
                       Text(
                         DateFormat.yMMMEd()
-                            .format(DateTime.tryParse(event.duration)!),
+                            .format(DateTime.tryParse(event.dateOfEvent)!),
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w500,
@@ -346,8 +346,16 @@ class EventDetailsContent extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => BookTickets()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => UPIPayment(
+                              receiverName: event.username,
+                              receiverUpiId: event.upiId,
+                              eventName: event.title,
+                              eventDate: event.dateOfEvent,
+                              amount: event.ticketPrice,
+                              eventId: event.eventId,
+                              location: event.location,
+                            )));
                   },
                   child: Container(
                     decoration: BoxDecoration(

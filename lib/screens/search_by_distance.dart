@@ -246,7 +246,7 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                             description: eventData['description'],
                             eventUrl: eventData['eventUrl'],
                             location: eventData['location'],
-                            duration: eventData['duration'],
+                            dateOfEvent: eventData['dateOfEvent'],
                             punchLine: eventData['punchLine'],
                             latitude: eventData['latitude'],
                             longitude: eventData['longitude'],
@@ -255,7 +255,7 @@ class _SearchByDistanceState extends State<SearchByDistance> {
                                 eventData['galleryImages'].cast<String>(),
                           );
                           DateTime eventDate = DateFormat('yyyy-MM-dd')
-                              .parse(eventData['duration']);
+                              .parse(eventData['dateOfEvent']);
 
                           return InkWell(
                             onTap: () => Navigator.of(context).push(
