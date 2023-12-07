@@ -57,6 +57,8 @@ dependencies:
   latlong2: ^0.8.2
   geolocator: ^10.1.0
   upi_india: ^3.0.1
+  pdf: ^3.10.7
+  printing: ^5.11.1
 
 dev_dependencies:
   flutter_test:

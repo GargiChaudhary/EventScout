@@ -1,5 +1,5 @@
 import 'package:events/model/guest.dart';
-import 'package:events/screens/upi_payments.dart';
+import 'package:events/screens/tickets.dart';
 import 'package:events/utils/colors.dart';
 import 'package:events/utils/palette.dart';
 import 'package:flutter/material.dart';
@@ -345,17 +345,29 @@ class EventDetailsContent extends StatelessWidget {
                   ),
                 ),
                 InkWell(
+                  // onTap: () {
+                  //   Navigator.of(context).push(MaterialPageRoute(
+                  //       builder: (context) => UPIPayment(
+                  //             receiverName: event.username,
+                  //             receiverUpiId: event.upiId,
+                  //             eventName: event.title,
+                  //             eventDate: event.dateOfEvent,
+                  //             amount: event.ticketPrice,
+                  //             eventId: event.eventId,
+                  //             location: event.location,
+                  //           )));
+                  // },
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => UPIPayment(
-                              receiverName: event.username,
-                              receiverUpiId: event.upiId,
-                              eventName: event.title,
-                              eventDate: event.dateOfEvent,
-                              amount: event.ticketPrice,
-                              eventId: event.eventId,
-                              location: event.location,
-                            )));
+                        builder: (context) => Ticket(
+                            image: event.eventUrl,
+                            eventName: event.title,
+                            eventLoc: event.location,
+                            eventDate: DateFormat.yMMMEd()
+                                .format(DateTime.tryParse(event.dateOfEvent)!),
+                            eventTime: "08:30 PM",
+                            appName: "NA",
+                            price: event.ticketPrice.toString())));
                   },
                   child: Container(
                     decoration: BoxDecoration(
