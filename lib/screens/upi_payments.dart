@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:upi_india/upi_india.dart';
 import 'package:uuid/uuid.dart';
@@ -51,23 +53,93 @@ class _UPIPaymentState extends State<UPIPayment> {
     super.initState();
   }
 
-  String generateTransactionId() {
+  String generateTransactionRId() {
     var uuid = Uuid();
-    String transactionId = uuid.v4();
-    return transactionId;
+    String transactionRId = uuid.v4();
+    return transactionRId;
   }
 
+  void storeTransactionDetailsInFirestore(
+      {required String userID,
+      required String eventID,
+      required String transactionID,
+      required double amount,
+      required DateTime timestamp,
+      required String transactionNote}) async {
+    try {
+      CollectionReference transactionsCollection =
+          FirebaseFirestore.instance.collection('transactions');
+
+      // Store transaction details in Firestore
+      await transactionsCollection.doc(transactionID).set({
+        'userID': userID,
+        'eventID': eventID,
+        'transactionID': transactionID,
+        'amount': amount,
+        'timestamp': timestamp,
+        'transactionNote': transactionNote
+        // Add other transaction details as needed
+        // ...
+      });
+
+      print('Transaction details stored successfully!');
+    } catch (e) {
+      print('Error storing transaction details: $e');
+    }
+  }
+
+  //old initiateTransaction as on pubdev
+  // Future<UpiResponse> initiateTransaction(UpiApp app) async {
+  //   String transactionRId = generateTransactionRId();
+  //   return _upiIndia.startTransaction(
+  //       app: app,
+  //       receiverUpiId: widget.receiverUpiId,
+  //       receiverName: widget.receiverName,
+  //       transactionRefId: transactionRId,
+  //       transactionNote:
+  //           'Ticket for ${widget.eventName} Event on ${widget.eventDate}.',
+  //       amount: widget.amount,
+  //       flexibleAmount: false);
+  // }
+
+  //new initiateTransaction for storing data in firebase
   Future<UpiResponse> initiateTransaction(UpiApp app) async {
-    String transactionId = generateTransactionId();
-    return _upiIndia.startTransaction(
-        app: app,
-        receiverUpiId: widget.receiverUpiId,
-        receiverName: widget.receiverName,
-        transactionRefId: transactionId,
-        transactionNote:
-            'Ticket for ${widget.eventName} Event on ${widget.eventDate}.',
-        amount: widget.amount,
-        flexibleAmount: false);
+    String transactionRId = generateTransactionRId();
+    try {
+      UpiResponse response = await _upiIndia.startTransaction(
+          app: app,
+          receiverUpiId: widget.receiverUpiId,
+          receiverName: widget.receiverName,
+          transactionRefId: transactionRId,
+          transactionNote:
+              'Ticket for ${widget.eventName} Event on ${widget.eventDate}.',
+          amount: widget.amount,
+          flexibleAmount: false);
+
+      // Check if the transaction was successful
+      if (response.status == UpiPaymentStatus.SUCCESS) {
+        // Get user and event IDs; you'll need to replace these with your actual data
+
+        User? user = FirebaseAuth.instance.currentUser;
+        String userID = user!.uid;
+        String eventID = widget.eventId;
+
+        // Store transaction details in Firestore
+        storeTransactionDetailsInFirestore(
+            userID: userID,
+            eventID: eventID,
+            transactionID: response.transactionId ?? '',
+            amount: widget.amount, // Replace with the actual transaction amount
+            timestamp: DateTime.now(),
+            transactionNote:
+                'Ticket for ${widget.eventName} Event on ${widget.eventDate}.');
+      }
+
+      return response;
+    } catch (e) {
+      print('Error during transaction: $e');
+      throw e; // Rethrow the error to handle it as needed in your UI
+    }
   }
 
   Widget displayUpiApps() {
