@@ -329,7 +329,7 @@ class EventDetailsContent extends StatelessWidget {
                         topLeft: Radius.circular(12),
                         bottomLeft: Radius.circular(12)),
                   ),
-                  width: MediaQuery.of(context).size.width * 0.59,
+                  width: MediaQuery.of(context).size.width * 0.55,
                   height: 40,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),

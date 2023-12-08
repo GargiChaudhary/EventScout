@@ -14,6 +14,7 @@ class SavePdfButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).primaryColor,
         minimumSize: Size(MediaQuery.of(context).size.width * 0.6, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),

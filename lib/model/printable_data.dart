@@ -49,12 +49,13 @@ buildPrintableData(double pageHeight, double pageWidth, Uint8List image) =>
                   color: const PdfColor(0, 0, 0),
                 ),
               ),
-              pw.Text(
-                "- - - - - - - - - - - - - - - - - - - - - - - - - - ",
-                style: const pw.TextStyle(
-                    fontSize: 25, color: PdfColor(0.619, 0.619, 0.619)),
-                softWrap: false,
-              ),
+              // pw.Text(
+              //   "- - - - - - - - - - - - - - - - - - - - - - - - - - ",
+              //   style: const pw.TextStyle(
+              //       fontSize: 25, color: PdfColor(0.619, 0.619, 0.619)),
+              //   softWrap: false,
+              // ),
+              pw.Divider(color: PdfColor(0.619, 0.619, 0.619)),
               pw.Padding(
                 padding: const pw.EdgeInsets.symmetric(horizontal: 20.0),
                 child: pw.Row(
@@ -104,12 +105,7 @@ buildPrintableData(double pageHeight, double pageWidth, Uint8List image) =>
                   ],
                 ),
               ),
-              pw.Text(
-                "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
-                style: pw.TextStyle(
-                    fontSize: 25, color: const PdfColor(0.619, 0.619, 0.619)),
-                softWrap: false,
-              ),
+              pw.Divider(color: PdfColor(0.619, 0.619, 0.619)),
               pw.Padding(
                 padding: pw.EdgeInsets.symmetric(horizontal: 20.0),
                 child: pw.Row(

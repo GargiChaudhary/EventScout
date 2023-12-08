@@ -52,18 +52,21 @@ class _TicketState extends State<Ticket> {
           Container(
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width * 0.7,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade600,
-                spreadRadius: 1,
-                blurRadius: 5,
-                offset: const Offset(0, 5),
-              )
-            ], color: Colors.white, borderRadius: BorderRadius.circular(15)),
+            decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    // color: Colors.grey.shade600,
+                    color: Theme.of(context).hintColor.withOpacity(0.4),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 5),
+                  )
+                ],
+                color: Theme.of(context).focusColor,
+                borderRadius: BorderRadius.circular(15)),
             child: Column(
               children: [
                 ClipRRect(
-                    // borderRadius: BorderRadius.circular(15.0),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
@@ -80,12 +83,12 @@ class _TicketState extends State<Ticket> {
                 const SizedBox(
                   height: 15,
                 ),
-                const Text(
-                  "Rally",
+                Text(
+                  widget.eventName,
                   style: TextStyle(
-                      fontFamily: '',
+                      fontFamily: 'Montserrat',
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(
@@ -94,53 +97,60 @@ class _TicketState extends State<Ticket> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on,
                       size: 16,
                     ),
-                    Text(
-                      "Dayal Bagh, Agra",
-                      style: TextStyle(
-                        fontFamily: '',
-                        fontSize: 16,
-                        color: Colors.black,
+                    Expanded(
+                      child: Text(
+                        widget.eventLoc,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 13,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        softWrap: true,
                       ),
                     ),
                   ],
                 ),
-                Text(
-                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
-                  style: TextStyle(fontSize: 25, color: Colors.grey),
-                  softWrap: false,
+                // Text(
+                //   "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
+                //   style: TextStyle(fontSize: 25, color: Colors.grey),
+                //   softWrap: false,
+                // ),
+                // CustomPaint(painter: DrawDottedhorizontalline()),
+                const Divider(
+                  color: Colors.grey,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "01/12/2023",
+                        widget.eventDate,
                         style: TextStyle(
-                            fontFamily: '',
+                            fontFamily: 'Montserrat',
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Theme.of(context).hintColor,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        "08:00 AM",
+                        widget.eventTime,
                         style: TextStyle(
-                            fontFamily: '',
+                            fontFamily: 'Montserrat',
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Theme.of(context).hintColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,7 +158,7 @@ class _TicketState extends State<Ticket> {
                       Text(
                         "Date",
                         style: TextStyle(
-                          fontFamily: '',
+                          fontFamily: 'Montserrat',
                           fontSize: 14,
                           color: Colors.grey,
                         ),
@@ -156,7 +166,7 @@ class _TicketState extends State<Ticket> {
                       Text(
                         "Time",
                         style: TextStyle(
-                          fontFamily: '',
+                          fontFamily: 'Montserrat',
                           fontSize: 14,
                           color: Colors.grey,
                         ),
@@ -164,39 +174,37 @@ class _TicketState extends State<Ticket> {
                     ],
                   ),
                 ),
-                Text(
-                  "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -",
-                  style: TextStyle(fontSize: 25, color: Colors.grey),
-                  softWrap: false,
+                Divider(
+                  color: Theme.of(context).primaryColor,
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "PhonePay",
+                        widget.appName,
                         style: TextStyle(
-                            fontFamily: '',
+                            fontFamily: 'Montserrat',
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Theme.of(context).hintColor,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        "Rs. 400",
+                        '\u{20B9}${widget.price}',
                         style: TextStyle(
-                            fontFamily: '',
+                            fontFamily: 'Montserrat',
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Theme.of(context).hintColor,
                             fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,7 +212,7 @@ class _TicketState extends State<Ticket> {
                       Text(
                         "Payment Method",
                         style: TextStyle(
-                          fontFamily: '',
+                          fontFamily: 'Montserrat',
                           fontSize: 14,
                           color: Colors.grey,
                         ),
@@ -212,7 +220,7 @@ class _TicketState extends State<Ticket> {
                       Text(
                         "Price",
                         style: TextStyle(
-                          fontFamily: '',
+                          fontFamily: 'Montserrat',
                           fontSize: 14,
                           color: Colors.grey,
                         ),
